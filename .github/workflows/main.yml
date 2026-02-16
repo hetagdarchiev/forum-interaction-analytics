@@ -1,0 +1,72 @@
+# .github/workflows/ci.yml
+name: CI Checks
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  frontend:
+    name: Frontend (Next.js)
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.12.0'
+          cache: 'npm'
+          cache-dependency-path: ./frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+
+      - name: ESLint
+        working-directory: ./frontend
+        run: npm run lint || true
+        continue-on-error: true
+
+
+      - name: Stylelint
+        working-directory: ./frontend
+        run: npx stylelint "**/*.{css,scss}" || true
+        continue-on-error: true
+
+      - name: Build Next.js
+        working-directory: ./frontend
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8080
+
+  backend:
+    name: Backend (Go)
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.4'
+          cache-dependency-path: ./backend/go.sum
+
+      - name: Download dependencies
+        working-directory: ./backend
+        run: go mod download
+
+      - name: Tidy go.mod
+        working-directory: ./backend
+        run: go mod tidy
+
+      - name: Build
+        working-directory: ./backend
+        run: go build -v ./...

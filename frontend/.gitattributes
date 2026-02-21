@@ -1,0 +1,20 @@
+# Назначать LF для всех текстовых файлов при сохранении в Git чтобы линтер не ругался если проект скачан на Windows
+* text=auto eol=lf
+
+# Явно указать типы файлов, которые всегда должны быть текстовыми
+*.js text
+*.jsx text
+*.ts text
+*.tsx text
+*.json text
+*.css text
+*.scss text
+*.mjs text
+*.md text
+
+# Игнорировать бинарные файлы (картинки и т.д.)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary

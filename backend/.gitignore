@@ -1,0 +1,3 @@
+# local folder to store scripts, configs and other for local use
+# which MUST not to get in git repository 
+/local/

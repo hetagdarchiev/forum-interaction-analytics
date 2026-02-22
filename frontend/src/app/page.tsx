@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 export default function Home() {
-  return 
+  return (
     <div className='flex h-full justify-center bg-zinc-50 font-sans dark:bg-black'>
       <main className='flex h-full flex-col justify-between bg-white px-20 py-10'>
         <Image

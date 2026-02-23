@@ -3,3 +3,5 @@
 /local/
 # target directory for builds
 /target
+
+/.vscode/

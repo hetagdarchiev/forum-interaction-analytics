@@ -1,0 +1,5 @@
+build:
+  go build -o ./target/forum ./cmd/forum
+
+run +CONFIG: build
+  ./target/forum --config {{CONFIG}}

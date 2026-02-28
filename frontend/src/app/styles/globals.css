@@ -1,8 +1,20 @@
+@import './utils.css';
 @import 'tailwindcss';
 
 :root {
   --background: #fff;
   --foreground: #171717;
+}
+
+@theme {
+  --color-blue-77: #77a6f7;
+  --color-blue-d3: #d3e3fc;
+  --color-blue-16: #1682fd;
+  --color-beige-ff: #ffccbc;
+  --color-gray-80: #808080;
+  --color-gray-ea: #eaeaea;
+  --color-orange-f4: #f48023;
+  --color-ligth-fc: #fcf4ec;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -15,36 +15,49 @@ import (
 
 type CmdConfig struct {
 	Config *string
-
-	DbHost     *string
-	DbPort     *int
-	DbUser     *string
-	DbPassword *string
-	DbName     *string
+	// database
+	DatabaseHost     *string
+	DatabasePort     *int
+	DatabaseUser     *string
+	DatabasePassword *string
+	DatabaseName     *string
+	// http server
+	ServerHost      *string
+	ServerPort      *int
+	ServerJwtSecret *string
 }
 
 // CmdParse parses command-line arguments and returns a CmdConfig struct.
 func CmdParse() *CmdConfig {
 	configPath := flag.String("config", "", "path to config file")
-	dbHost := flag.String("db-host", "", "database host")
-	dbPort := flag.Int("db-port", 0, "database port")
-	dbUser := flag.String("db-user", "", "database user")
-	dbPassword := flag.String("db-password", "", "database password")
-	dbName := flag.String("db-name", "", "database name")
+	dbHost := flag.String("database-host", "", "database host")
+	dbPort := flag.Int("database-port", 0, "database port")
+	dbUser := flag.String("database-user", "", "database user")
+	dbPassword := flag.String("database-password", "", "database password")
+	dbName := flag.String("database-name", "", "database name")
+
+	serverHost := flag.String("server-host", "", "http server host")
+	serverPort := flag.Int("server-port", 0, "http server port")
+	serverJwtSecret := flag.String("server-jwt-secret", "", "http server jwt secret")
 
 	flag.Parse()
 
 	return &CmdConfig{
-		Config:     configPath,
-		DbHost:     dbHost,
-		DbPort:     dbPort,
-		DbUser:     dbUser,
-		DbPassword: dbPassword,
-		DbName:     dbName,
+		Config: configPath,
+		// database
+		DatabaseHost:     dbHost,
+		DatabasePort:     dbPort,
+		DatabaseUser:     dbUser,
+		DatabasePassword: dbPassword,
+		DatabaseName:     dbName,
+		// http server
+		ServerHost:      serverHost,
+		ServerPort:      serverPort,
+		ServerJwtSecret: serverJwtSecret,
 	}
 }
 
-type DbConfig struct {
+type DatabaseConfig struct {
 	Host     string
 	Port     int
 	User     string
@@ -52,38 +65,62 @@ type DbConfig struct {
 	Name     string
 }
 
-func (db *DbConfig) check(cmd *CmdConfig) error {
-	db.Host = mergeCmdEnvCurrentDefaultString(cmd.DbHost, "FORUM_DB_HOST", db.Host, "localhost")
-	db.Port = mergeCmdEnvCurrentDefaultInt(cmd.DbPort, "FORUM_DB_PORT", db.Port, 5432)
-	db.User = mergeCmdEnvCurrentDefaultString(cmd.DbUser, "FORUM_DB_USER", db.User, "")
-	db.Password = mergeCmdEnvCurrentDefaultString(cmd.DbPassword, "FORUM_DB_PASSWORD", db.Password, "")
-	db.Name = mergeCmdEnvCurrentDefaultString(cmd.DbName, "FORUM_DB_NAME", db.Name, "")
+func (db *DatabaseConfig) check(cmd *CmdConfig) error {
+	db.Host = mergeCmdEnvCurrentDefaultString(cmd.DatabaseHost, "FORUM_DATABASE_HOST", db.Host, "localhost")
+	db.Port = mergeCmdEnvCurrentDefaultInt(cmd.DatabasePort, "FORUM_DATABASE_PORT", db.Port, 5432)
+	db.User = mergeCmdEnvCurrentDefaultString(cmd.DatabaseUser, "FORUM_DATABASE_USER", db.User, "")
+	db.Password = mergeCmdEnvCurrentDefaultString(cmd.DatabasePassword, "FORUM_DATABASE_PASSWORD", db.Password, "")
+	db.Name = mergeCmdEnvCurrentDefaultString(cmd.DatabaseName, "FORUM_DATABASE_NAME", db.Name, "")
 
 	if db.Host == "" {
-		return fmt.Errorf("db host is empty")
+		return fmt.Errorf("database host is empty")
 	}
 	if db.Port <= 0 {
-		return fmt.Errorf("db port is zero or negative")
+		return fmt.Errorf("database port is zero or negative")
 	}
 	if db.User == "" {
-		return fmt.Errorf("db user is empty")
+		return fmt.Errorf("database user is empty")
 	}
 	if db.Password == "" {
-		return fmt.Errorf("db password is empty")
+		return fmt.Errorf("database password is empty")
 	}
 	if db.Name == "" {
-		return fmt.Errorf("db name is empty")
+		return fmt.Errorf("database name is empty")
 	}
 	return nil
 }
 
-func (db *DbConfig) DSN() string {
+func (db *DatabaseConfig) DSN() string {
 	// dsn := "postgres://username:password@localhost:5432/database_name"
 	return fmt.Sprintf("postgres://%s:%s@%s:%d/%s", db.User, db.Password, db.Host, db.Port, db.Name)
 }
 
+type ServerConfig struct {
+	Host      string
+	Port      int
+	JwtSecret string
+}
+
+func (srv *ServerConfig) check(cmd *CmdConfig) error {
+	srv.Host = mergeCmdEnvCurrentDefaultString(cmd.ServerHost, "FORUM_SERVER_HOST", srv.Host, "::1")
+	srv.Port = mergeCmdEnvCurrentDefaultInt(cmd.ServerPort, "FORUM_SERVER_PORT", srv.Port, 8080)
+	srv.JwtSecret = mergeCmdEnvCurrentDefaultString(cmd.ServerJwtSecret, "FORUM_SERVER_JWT_SECRET", srv.JwtSecret, "")
+
+	if srv.Port <= 0 {
+		return fmt.Errorf("server port is zero or negative")
+	}
+	if srv.Port > 65535 {
+		return fmt.Errorf("server port is greater than 65535")
+	}
+	if srv.JwtSecret == "" {
+		return fmt.Errorf("server jwt secret is empty")
+	}
+	return nil
+}
+
 type AppConfig struct {
-	Db DbConfig `toml:"db"`
+	Database DatabaseConfig `toml:"database"`
+	Server   ServerConfig   `toml:"server"`
 }
 
 // MustReadAppConfig reads the application configuration.
@@ -102,9 +139,14 @@ func MustReadAppConfig(cmdConfig *CmdConfig) *AppConfig {
 		log.Fatalf("failed parse config from \"%s\": %v", cfgPath, err)
 	}
 
-	err = appConfig.Db.check(cmdConfig)
+	err = appConfig.Database.check(cmdConfig)
 	if err != nil {
 		log.Fatalf("invalid db config from file \"%s\", environment or command-line: %v", cfgPath, err)
+	}
+
+	err = appConfig.Server.check(cmdConfig)
+	if err != nil {
+		log.Fatalf("invalid server config from file \"%s\", environment or command-line: %v", cfgPath, err)
 	}
 
 	return &appConfig

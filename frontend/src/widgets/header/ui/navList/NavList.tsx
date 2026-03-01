@@ -1,31 +1,31 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import faqIcon from '@/shared/assets/icons/faq-icon.svg';
 import favoritesIcon from '@/shared/assets/icons/favorites-icon.svg';
-import galleryIcon from '@/shared/assets/icons/gallery-icon.svg';
+import notificationsIcon from '@/shared/assets/icons/notifications-icon.svg';
 import profileIcon from '@/shared/assets/icons/profile-icon.svg';
-import questionsIcon from '@/shared/assets/icons/questions-icon.svg';
 
 const navigations = [
   {
-    name: 'Gallery',
-    icon: galleryIcon,
-    href: 'gallery',
+    name: 'Notifications',
+    icon: notificationsIcon,
+    href: '/notifications',
   },
   {
     name: 'Profile',
     icon: profileIcon,
-    href: 'profile',
+    href: '/profile',
   },
   {
-    name: 'Questions',
-    icon: questionsIcon,
-    href: 'questions',
+    name: 'FAQ',
+    icon: faqIcon,
+    href: '/rules',
   },
   {
     name: 'Favorites',
     icon: favoritesIcon,
-    href: 'favorites',
+    href: '/favorites',
   },
 ];
 

@@ -14,7 +14,7 @@ export function Button(props: Props) {
     <Link
       href={href}
       {...attributes}
-      className={`bg-blue-16 rounded-md px-5 py-3 ${className}`}
+      className={`bg-blue-16 hover:bg-blue-20 rounded-md px-5 py-3 duration-200 ${className}`}
     >
       {children}
     </Link>

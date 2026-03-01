@@ -1,0 +1,1 @@
+export { AccordionsList } from './AccordionsList';

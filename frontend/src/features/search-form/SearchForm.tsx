@@ -22,7 +22,7 @@ export function SearchForm() {
         onChange={(event) => setInputValue(event.currentTarget.value)}
         value={inputValue}
         placeholder='Поиск...'
-        className='w-full outline-0'
+        className='w-full text-sm font-light outline-0'
       />
     </form>
   );

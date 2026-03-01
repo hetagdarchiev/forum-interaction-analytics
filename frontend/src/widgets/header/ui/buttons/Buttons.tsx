@@ -8,7 +8,7 @@ export function Buttons() {
     <div className='flex gap-x-2.5 text-white'>
       <Button
         href='registration'
-        className='bg-orange-f4 flex items-center gap-x-3'
+        className='bg-orange-f4 hover:bg-orang-c5 flex items-center gap-x-3'
       >
         <span className='inline-flex h-5 w-5'>
           <Image

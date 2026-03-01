@@ -1,0 +1,1 @@
+export { ParagraphsList } from './ParagraphsList';

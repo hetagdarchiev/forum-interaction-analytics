@@ -1,8 +1,23 @@
+@import './normalize.css';
+@import './utils.css';
 @import 'tailwindcss';
 
 :root {
   --background: #fff;
   --foreground: #171717;
+}
+
+@theme {
+  --color-blue-77: #77a6f7;
+  --color-blue-d3: #d3e3fc;
+  --color-blue-16: #1682fd;
+  --color-blue-20: #206fc9;
+  --color-beige-ff: #ffccbc;
+  --color-gray-80: #808080;
+  --color-gray-ea: #eaeaea;
+  --color-orange-f4: #f48023;
+  --color-orang-c5: #c55c07;
+  --color-ligth-fc: #fcf4ec;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,11 +33,14 @@ body {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
   font-family: Arial, Helvetica, sans-serif;
   color: var(--foreground);
   background: var(--background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-blue-d3);
 }
 
 * {

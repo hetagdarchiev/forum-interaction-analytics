@@ -3,8 +3,9 @@
 
 package handler
 
+//go:generate go run github.com/ogen-go/ogen/cmd/ogen@latest --target ./generated/ --clean ../../../config/forum-api.yaml
+
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -32,9 +33,4 @@ func RegisterRoutes(mux *http.ServeMux, userH UserHandler, authH AuthHandler) {
 	mux.HandleFunc("POST /api/user", userH.Create)
 	mux.HandleFunc("POST /api/user/{userId}", userH.Update)
 	mux.HandleFunc("DELETE /api/user/{userId}", userH.Delete)
-
-	mux.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-		_, _ = w.Write([]byte(fmt.Sprintf("users repo: %+v\n", userH)))
-	})
 }

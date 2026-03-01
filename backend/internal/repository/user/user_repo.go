@@ -39,6 +39,18 @@ func (r *UserRepo) Get(ctx context.Context, userId int) (*model.User, error) {
 		Email: email,
 	}, nil
 }
+func (r *UserRepo) GetNameById(ctx context.Context, userId int) (string, error) {
+	// TODO: optimize with cache
+	row := r.dbpool.QueryRow(ctx,
+		`SELECT name FROM users WHERE id = $1`,
+		userId)
+
+	var name string
+	if err := row.Scan(&name); err != nil {
+		return "", err
+	}
+	return name, nil
+}
 
 func (r *UserRepo) Create(ctx context.Context, name, email string) (*model.User, error) {
 	row := r.dbpool.QueryRow(ctx,

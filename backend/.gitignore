@@ -5,3 +5,5 @@
 /target
 
 /.vscode/
+# go tools directory installed by just install-tools
+/bin/

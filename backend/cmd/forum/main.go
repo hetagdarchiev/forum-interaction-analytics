@@ -60,6 +60,7 @@ func main() {
 
 	mux := http.NewServeMux()
 	handler.RegisterRoutes(mux, userH, authH)
+	handler.RegisterOgenRoutes(mux, appConfig.Database.DSN(), userR)
 
 	srv := &http.Server{
 		Addr:    addr,

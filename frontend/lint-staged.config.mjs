@@ -1,4 +1,3 @@
-// executed before commit, use with Husky.
 const config = {
   '*.{ts,tsx}': ['eslint --fix', 'prettier --write'],
 

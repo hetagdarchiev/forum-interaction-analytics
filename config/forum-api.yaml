@@ -1,0 +1,206 @@
+openapi: '3.1.2'
+info:
+  title: Forum interaction analyzis API
+  description: API for analyzing interactions in a forum.
+  contact:
+    name: API Support
+    email: alex19srv@gmail.com
+  version: '1.0'
+servers:
+  - url: https://api.server.test/v1
+paths:
+  /api/user:
+    post:
+      operationId: userCreate
+      summary: Create a new user
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateRequest'
+      responses:
+        '201':
+          $ref: '#/components/responses/UserInfoResponse'
+        "400":
+          $ref: '#/components/responses/ErrorStringDescription'
+        "500":
+          $ref: '#/components/responses/ErrorStringDescription'
+  /api/user/me:
+    get:
+      operationId: userMe
+      summary: Get current user information
+      security:
+        - jwtAuth: []
+      responses:
+        '200':
+          $ref: '#/components/responses/UserInfoResponse'
+        "401":
+          $ref: '#/components/responses/ErrorStringDescription'
+        "500":
+          $ref: '#/components/responses/ErrorStringDescription'
+  /api/user/{userId}:
+    get:
+      operationId: userGet
+      summary: Get user information
+      responses:
+        '200':
+           $ref: '#/components/responses/UserInfoResponse'
+        "400":
+          $ref: '#/components/responses/ErrorStringDescription'
+        "500":
+          $ref: '#/components/responses/ErrorStringDescription'
+    post:
+      operationId: userUpdate
+      summary: Update user information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/UserInfoResponse'
+    delete:
+      operationId: userDelete
+      summary: Delete a user
+      responses:
+        '204':
+          description: No Content
+  /api/auth/login:
+    post:
+      operationId: authLogin
+      summary: User login
+      description: |
+        Create access and refresh JWT tokens, send to user. The refresh token also stored in a cookie.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthLoginRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/JwtToken'
+  /api/auth/refresh:
+    post:
+      operationId: authRefresh
+      summary: Refresh JWT token
+      description: |
+        Update access and refresh tokens, send to user. The refresh token also stored in a cookie.
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          $ref: '#/components/responses/JwtToken'
+        "401":
+          $ref: '#/components/responses/ErrorStringDescription'
+        "500":
+          $ref: '#/components/responses/ErrorStringDescription'
+  /api/auth/logout:
+    post:
+      operationId: authLogout
+      summary: User logout
+      security:
+        - cookieAuth: []
+      responses:
+        '204':
+          description: No Content
+components:
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    cookieAuth: # for JWT refresh token
+      type: apiKey
+      in: cookie
+      name: refreshToken
+  responses:
+    ErrorStringDescription:
+      description: Error in request with string description (for log, not for user)
+      content:
+        text/plain:
+          schema:
+            type: string
+    UserInfoResponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserCreateResponseOk'
+    JwtToken:
+      description: JWT token for authentication
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              refreshToken:
+                type: string
+              accessToken:
+                type: string
+            required:
+              - refreshToken
+              - accessToken
+            example:
+              refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmFtZSI6ImpvaG5fZG9lIiwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTY5ODQ4ODAwMH0.4s8n3v7z8X9y2a1b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7"
+              accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmFtZSI6ImpvaG5fZG9lIiwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTY5ODQ4ODAwMH0.4s8n3v7z8X9y2a1b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7"
+  schemas:
+    UserCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+      required:
+        - name
+        - email
+        - password
+      example:
+        name: "john_doe"
+        email: "john.doe@example.com"
+        password: "securepassword123"
+    UserCreateResponseOk:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+      required:
+        - id
+        - name
+        - email
+      example:
+        id: 1
+        name: "john_doe"
+        email: "test@mail.ru"
+    AuthLoginRequest:
+      type: object
+      properties:
+        login:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+      required:
+        - login
+        - password
+      example:
+        login: "john.doe@example.com"
+        password: "securepassword123"
+security:
+  - jwtAuth: []

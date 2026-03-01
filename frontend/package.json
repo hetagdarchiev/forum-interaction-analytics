@@ -9,7 +9,8 @@
     "lint": "eslint . && stylelint \"src/**/*.css\"",
     "lint:fix": "eslint . --fix && stylelint \"src/**/*.css\" --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,json}\"",
-    "typecheck": "tsc --noEmit --incremental false --pretty"
+    "typecheck": "tsc --noEmit --incremental false --pretty",
+    "prepare": "husky"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.2.0",
@@ -31,6 +32,8 @@
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-simple-import-sort": "^12.1.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "stylelint": "^17.3.0",

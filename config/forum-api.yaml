@@ -10,6 +10,7 @@ servers:
   - url: https://api.server.test/v1
 paths:
   /api/user:
+    x-ogen-operation-group: User
     post:
       operationId: userCreate
       summary: Create a new user
@@ -28,6 +29,7 @@ paths:
         "500":
           $ref: '#/components/responses/ErrorStringDescription'
   /api/user/me:
+    x-ogen-operation-group: User
     get:
       operationId: userMe
       summary: Get current user information
@@ -41,6 +43,14 @@ paths:
         "500":
           $ref: '#/components/responses/ErrorStringDescription'
   /api/user/{userId}:
+    x-ogen-operation-group: User
+    parameters:
+      - name: userId
+        in: path
+        description: User id
+        required: true
+        schema:
+          type: integer
     get:
       operationId: userGet
       summary: Get user information
@@ -70,6 +80,7 @@ paths:
         '204':
           description: No Content
   /api/auth/login:
+    x-ogen-operation-group: Auth
     post:
       operationId: authLogin
       summary: User login
@@ -86,6 +97,7 @@ paths:
         '200':
           $ref: '#/components/responses/JwtToken'
   /api/auth/refresh:
+    x-ogen-operation-group: Auth
     post:
       operationId: authRefresh
       summary: Refresh JWT token
@@ -101,6 +113,7 @@ paths:
         "500":
           $ref: '#/components/responses/ErrorStringDescription'
   /api/auth/logout:
+    x-ogen-operation-group: Auth
     post:
       operationId: authLogout
       summary: User logout
@@ -109,6 +122,142 @@ paths:
       responses:
         '204':
           description: No Content
+  /api/threads:
+    x-ogen-operation-group: Threads
+    get:
+      operationId: threadsList
+      summary: Get list of threads with pagination
+      description: |
+        Получить список веток с пагинацией. Можно использовать либо постраничную пагинацию (page + limit),
+        либо курсорную пагинацию (after или before). Нужно использовать только один параметр.
+        after, before или page с номером страницы. Если ни один не указан - выводятся самые свежие сообщения.
+        limit - количество сообщений на страницу, по умолчанию 20.
+        С разделением на страницы есть неприятная особенность. При удалении или добавлении новых сообщений,
+        страницы могут "прыгать". Т.е. у нас есть список (сообщений) и в него могут добавляться и удаляться элементы
+        в любом месте списка. Если мы находится на странице 3 и хотим 7-ю, то в ней могут быть совсем другие элементы,
+        чем на момент запроса страницы 3. Поэтому для более стабильной пагинации можно использовать курсорную пагинацию.
+
+        Навигация по номеру страницы выберает все сообщения на момент запроса и отдает нужную страницу. Добавление
+        или удаление сообщений сбивает это разделение.
+
+        Курсорная пагинация позволяет двигаться вперед и назад по списку, учитывая изменеия в нем.
+        Но для нее нужно указывать минимальный или максимальный id сообщения на странице, чтобы понять откуда двигаться
+        дальше. И она не позволяет прыгать на конкретную страницу, а только двигаться вперед и назад.
+        При этом before и after не включаются в результат, т.е. если указать before=10, то в результат не попадет
+        сообщение с id 10, а только с id меньше 10. И аналогично для after. В них указываются id сообщения, но
+        before - для получения более старых сообщений, а after - для получения более новых сообщений по времени.
+        Более старым сообщениям (before) соответствует меньший id (более старые сообщения),
+        а более новым (after) - больший id. И при этом не важно, удалены эти сообщения или нет.
+      parameters:
+        - name: limit
+          in: query
+          description: Number of threads to return
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: page
+          in: query
+          description: Page number (starting from 1)
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: after
+          in: query
+          description: Return threads created after this id (for cursor pagination)
+          required: false
+          schema:
+            type: integer
+        - name: before
+          in: query
+          description: Return threads created before this id (for cursor pagination)
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThreadListResponse'
+        "401":
+          $ref: '#/components/responses/ErrorStringDescription'
+        "500":
+          $ref: '#/components/responses/ErrorStringDescription'
+    post:
+      operationId: threadCreate
+      summary: Create a new thread
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ThreadCreateRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThreadListItem'
+        "401":
+          $ref: '#/components/responses/ErrorStringDescription'
+        "500":
+          $ref: '#/components/responses/ErrorStringDescription'
+  /api/threads/{threadId}:
+    x-ogen-operation-group: Threads
+    get:
+      operationId: threadGet
+      summary: Get single thread with all posts by thread id
+      parameters:
+        - name: threadId
+          in: path
+          description: Thread id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThreadWithPostsListResponse'
+        "400":
+          $ref: '#/components/responses/ErrorStringDescription'
+        "500":
+          $ref: '#/components/responses/ErrorStringDescription'
+  /api/threads/{threadId}/posts:
+    x-ogen-operation-group: Threads
+    post:
+      operationId: threadAddPost
+      summary: Add a new post to thread
+      parameters:
+        - name: threadId
+          in: path
+          description: Thread id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ThreadCreatePostRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThreadPostItem'
+        "400":
+          $ref: '#/components/responses/ErrorStringDescription'
+        "500":
+          $ref: '#/components/responses/ErrorStringDescription'
 components:
   securitySchemes:
     jwtAuth:
@@ -123,7 +272,7 @@ components:
     ErrorStringDescription:
       description: Error in request with string description (for log, not for user)
       content:
-        text/plain:
+        application/json:
           schema:
             type: string
     UserInfoResponse:
@@ -202,5 +351,175 @@ components:
       example:
         login: "john.doe@example.com"
         password: "securepassword123"
+    ThreadListResponse:
+      type: object
+      properties:
+        threads:
+          type: array
+          items:
+            $ref: '#/components/schemas/ThreadListItem'
+        total_count_estimated:
+          type: integer
+        have_prev:
+          type: boolean
+        have_next:
+          type: boolean
+      required:
+        - threads
+        - total_count_estimated
+        - have_prev
+        - have_next
+      example:
+        threads:
+          - id: 1
+            title: "First thread"
+            content: "This is the content of the first thread."
+            author_id: 42
+            author_name: "Petr Semenov"
+            posts_count: 5
+            created_at: "2024-01-01T12:00:00Z"
+          - id: 2
+            title: "Second thread"
+            content: "This is the content of the second thread."
+            author_id: 43
+            author_name: "Anna Ivanova"
+            posts_count: 3
+            created_at: "2024-01-02T15:30:00Z"
+        total_count_estimated: 100
+        have_prev: false
+        have_next: true
+    ThreadListItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        author_id:
+          type: integer
+        author_name:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        posts_count:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+      required:
+        - id
+        - author_id
+        - author_name
+        - title
+        - content
+        - posts_count
+        - created_at
+      example:
+        id: 1
+        title: "First thread"
+        content: "This is the content of the first thread."
+        author_id: 42
+        author_name: "Petr Semenov"
+        posts_count: 5
+        created_at: "2024-01-01T12:00:00Z"
+    ThreadWithPostsListResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        author_id:
+          type: integer
+        author_name:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        posts_count:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/ThreadPostItem'
+      required:
+        - id
+        - author_id
+        - author_name
+        - title
+        - content
+        - posts_count
+        - created_at
+        - posts
+      example:
+        id: 1
+        title: "First thread"
+        content: "This is the content of the first thread."
+        author_id: 42
+        author_name: "Petr Semenov"
+        posts_count: 5
+        created_at: "2024-01-01T12:00:00Z"
+        posts:
+          - id: 1
+            content: "This is the content of the first post."
+            author_id: 42
+            author_name: "Petr Semenov"
+            created_at: "2024-01-01T12:00:00Z"
+          - id: 2
+            content: "This is the content of the second post."
+            author_id: 43
+            author_name: "Anna Ivanova"
+            created_at: "2024-01-02T15:30:00Z"
+    ThreadPostItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        author_id:
+          type: integer
+        author_name:
+          type: string
+        content:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+      required:
+        - id
+        - author_id
+        - author_name
+        - content
+        - created_at
+      example:
+        id: 1
+        content: "Первый ответ в ветке."
+        author_id: 42
+        author_name: "Petr Semenov"
+        posts_count: 5
+        created_at: "2024-01-01T12:00:00Z"
+    ThreadCreateRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+      required:
+        - title
+        - content
+      example:
+        title: "How to learn Go?"
+        content: "I want to learn Go, but I don't know where to start. Any advice?"
+    ThreadCreatePostRequest:
+      type: object
+      properties:
+        content:
+          type: string
+      required:
+        - content
+      example:
+        content: "I want to learn Go, but I don't know where to start. Any advice?"
 security:
   - jwtAuth: []

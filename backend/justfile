@@ -1,5 +1,22 @@
+set shell := ["bash", "-c"]
+
+GO_BIN_DIR := `pwd` + "/bin"
+
 build:
   go build -o ./target/forum ./cmd/forum
 
 run +CONFIG: build
   ./target/forum --config {{CONFIG}}
+
+generate: install-tools
+  GOBIN={{GO_BIN_DIR}} go generate ./...
+
+install-tools: install-ogen
+
+install-ogen:
+  @[ ! -d {{GO_BIN_DIR}} ] || mkdir -p {{GO_BIN_DIR}}
+  @if [[ ! -f {{GO_BIN_DIR}}/ogen ]]; \
+  then \
+    echo "Installing Ogen to {{GO_BIN_DIR}}"; \
+    GOBIN={{GO_BIN_DIR}} go install github.com/ogen-go/ogen/cmd/ogen@latest; \
+  fi

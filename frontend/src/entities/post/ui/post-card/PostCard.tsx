@@ -40,7 +40,7 @@ export const PostCard = ({
         <h2 className='line-clamp-2 max-w-65 text-start text-lg leading-5.5 2xl:max-w-80'>
           <Link
             href={AppRouter.post.getRoute(String(id))}
-            className='after:absolute after:inset-0 focus:outline-none'
+            className='focus:outline-none'
           >
             {title}
           </Link>

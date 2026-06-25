@@ -21,7 +21,6 @@ import {
   useMenuIsOpen,
 } from '@/shared/hooks/useMenu.selectors';
 import { useModal } from '@/shared/hooks/useModal';
-import { useWindowResize } from '@/shared/hooks/useWindowResize';
 import { cn } from '@/shared/lib/classNames';
 import { Container } from '@/shared/ui';
 
@@ -45,14 +44,16 @@ export function Header(props: HeaderProps) {
     initialState: isOpen,
   });
 
-  const { responsiveIsOpen, setResponsiveIsOpen } = useWindowResize(modalOpen);
+  const setMenuOpen = (value: boolean) => {
+    setIsOpen(value);
+    setModalOpen(value);
+  };
 
   useEffect(() => {
-    if (isOpen !== responsiveIsOpen) {
-      setIsOpen(responsiveIsOpen);
-      setModalOpen(responsiveIsOpen);
+    if (!modalOpen && isOpen) {
+      setIsOpen(false);
     }
-  }, [responsiveIsOpen, isOpen, setIsOpen, setModalOpen]);
+  }, [modalOpen, isOpen, setIsOpen]);
 
   return (
     <header className='bg-dark-0e sticky top-0 z-50 w-full py-2.5 after:absolute after:right-0 after:bottom-0 after:left-0 after:h-px after:bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--color-light)_15%,transparent),transparent)] after:content-[""]'>
@@ -89,7 +90,7 @@ export function Header(props: HeaderProps) {
           )}
           <Burger
             isOpen={isOpen}
-            setIsOpen={isLoading ? () => {} : setResponsiveIsOpen}
+            setIsOpen={isLoading ? () => {} : setMenuOpen}
             ref={burgerRef}
             controls='aside-menu'
             disabled={isLoading}

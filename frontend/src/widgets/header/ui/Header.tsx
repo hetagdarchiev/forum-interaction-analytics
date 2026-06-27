@@ -58,7 +58,11 @@ export function Header(props: HeaderProps) {
     if (!modalOpen && isOpen) {
       setIsOpen(false);
     }
-  }, [modalOpen, isOpen, setIsOpen]);
+
+    if (!isOpen && modalOpen) {
+      setModalOpen(false);
+    }
+  }, [modalOpen, isOpen, setIsOpen, setModalOpen]);
 
   return (
     <header className='bg-dark-0e sticky top-0 z-50 w-full py-2.5 after:absolute after:right-0 after:bottom-0 after:left-0 after:h-px after:bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--color-light)_15%,transparent),transparent)] after:content-[""]'>

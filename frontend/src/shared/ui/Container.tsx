@@ -4,7 +4,7 @@ import { cn } from '../lib/classNames';
 
 type ContainerProps = ComponentPropsWithoutRef<'div'>;
 
-export const containerClassName = 'px-5 sm:px-8 lg:px-27.5';
+export const containerClassName = 'px-3 sm:px-8 lg:px-27.5';
 
 export function Container(props: ContainerProps) {
   const { className, ...restProps } = props;

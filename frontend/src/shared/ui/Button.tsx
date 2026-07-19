@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 import { cn } from '../lib/classNames';
 
-type ButtonColor = 'purple' | 'ghost' | 'bordered' | 'transparent';
+type ButtonColor = 'purple' | 'ghost' | 'bordered' | 'transparent' | 'red';
 type ButtonSize = 'min-sm' | 'sm' | 'md' | 'lg' | 'xl' | 'square';
 
 type ButtonProps = Partial<
@@ -27,6 +27,7 @@ const colorStyles: Record<ButtonColor, string> = {
   purple:
     'bg-purple-67 border border-purple-67 hover:bg-transparent hover:text-purple-67',
   ghost: 'bg-transparent border border-gray-9e/10 hover:border-gray-9e',
+  red: 'bg-[#FF3939]/30 text-[#FF3939] border border-gray-9e/10 hover:border-gray-9e',
   bordered:
     'bg-dark-1b border border-gray-9e/10 hover:bg-transparent hover:border-gray-9e/30 disabled:opacity-30 disabled:pointer-events-none',
   transparent:

@@ -1,33 +1,39 @@
 'use client';
 
-import { BsQuestionCircle } from 'react-icons/bs';
-import { LuInbox, LuStar } from 'react-icons/lu';
-import Link from 'next/link';
-import clsx from 'clsx';
+import {
+  IoBookmarkSharp,
+  IoChatboxSharp,
+  IoNotificationsSharp,
+  IoSettingsSharp,
+} from 'react-icons/io5';
 
 import { NavigationItem } from '../model/types/navigation-item.types';
 
-import { selectIsAuthenticated, useAuthStore } from '@/entities/session';
-import { useAuthMeQuery } from '@/entities/user';
-
 import { AppRouter } from '@/shared/config/app-router';
-import { ProfileAvatar } from '@/shared/ui';
+import { cn } from '@/shared/lib/classNames';
+import { Button } from '@/shared/ui';
 
 const navigations = [
   {
     name: 'Notifications',
-    Icon: LuInbox,
+    Icon: IoNotificationsSharp,
     href: AppRouter.notification,
   },
   {
-    name: 'FAQ',
-    Icon: BsQuestionCircle,
+    name: 'Messages',
+    Icon: IoChatboxSharp,
     href: AppRouter.faq,
   },
   {
     name: 'Favorites',
-    Icon: LuStar,
+    Icon: IoBookmarkSharp,
     href: AppRouter.favorites,
+  },
+
+  {
+    name: 'Settings',
+    Icon: IoSettingsSharp,
+    href: AppRouter.main,
   },
 ] satisfies NavigationItem[];
 
@@ -36,37 +42,28 @@ interface Props {
 }
 
 export function ProfileActions({ className }: Props) {
-  const isAuth = useAuthStore(selectIsAuthenticated);
-  const { data: user } = useAuthMeQuery({ enabled: isAuth });
-
   return (
-    <nav className={clsx(className)}>
-      <ul className='flex items-center gap-x-5'>
+    <nav className={cn(className)}>
+      <div className='flex justify-between gap-x-5'>
         {navigations.map(({ name, Icon, href }) => (
-          <li key={name.toLowerCase()}>
-            <Link href={href} aria-label={name} title={name}>
-              <Icon
-                aria-label={name}
-                width={24}
-                height={24}
-                title={name}
-                className='min-h-6 min-w-6'
-              />
-            </Link>
-          </li>
-        ))}
-        <li className='size-6.25'>
-          <Link href={AppRouter.profile} title={user ? user.name : 'user'}>
-            <ProfileAvatar
-              width={25}
-              height={25}
-              unoptimized
-              authorName={user ? user.name : 'user'}
-              avatarUrl={user?.avatarUrl}
+          <Button
+            key={name.toLowerCase()}
+            href={href}
+            aria-label={name}
+            title={name}
+            color='ghost'
+            className='border-gray-9e/10 flex aspect-square items-center justify-center rounded-[10px] border p-2.5'
+          >
+            <Icon
+              aria-label={name}
+              width={30}
+              height={30}
+              title={name}
+              className='min-h-7.5 min-w-7.5'
             />
-          </Link>
-        </li>
-      </ul>
+          </Button>
+        ))}
+      </div>
     </nav>
   );
 }

@@ -216,6 +216,7 @@ export default function Home() {
           style={{
             backgroundImage: `url(${logoLetterImage.src})`,
             backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
           }}
         />
 

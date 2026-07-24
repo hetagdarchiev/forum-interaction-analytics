@@ -35,7 +35,7 @@ export const ScrollX = forwardRef<HTMLDivElement, ScrollXProps>(
       <div
         ref={ref}
         className={cn(
-          'scrollbar-none overflow-x-auto overflow-y-hidden scroll-smooth',
+          'custom-scrollbar overflow-x-auto overflow-y-hidden scroll-smooth',
           className,
         )}
         onWheel={handleWheel}

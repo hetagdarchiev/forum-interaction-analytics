@@ -63,7 +63,7 @@ export function Header(props: HeaderProps) {
     <header className='bg-dark-0e sticky top-0 z-50 w-full py-2.5 after:absolute after:right-0 after:bottom-0 after:left-0 after:h-px after:bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--color-light)_15%,transparent),transparent)] after:content-[""]'>
       <Container className='flex items-center justify-between gap-x-5'>
         <h1 className='visually-hidden'>Communicore</h1>
-        <Link href={AppRouter.main} className='flex w-fit'>
+        <Link href={AppRouter.main} className='flex w-fit lg:shrink-0'>
           <Image
             src={logo}
             alt='Logo'
@@ -75,8 +75,8 @@ export function Header(props: HeaderProps) {
           />
         </Link>
 
-        <ScrollX>
-          <nav className='[&_a:hover]:text-purple-67 hidden gap-x-5 text-[18px] font-medium lg:flex [&_a]:transition-colors'>
+        <ScrollX className='py-2'>
+          <nav className='[&_a:hover]:text-purple-67 hidden shrink gap-x-5 text-[18px] font-medium lg:flex [&_a]:transition-colors'>
             {navLinks.map(({ label, href }) => (
               <Link key={label} href={href}>
                 {label}
@@ -85,7 +85,7 @@ export function Header(props: HeaderProps) {
           </nav>
         </ScrollX>
 
-        <div className='flex items-center gap-x-6.25'>
+        <div className='flex shrink-0 items-center gap-x-6.25'>
           <button title='Search' aria-label='Search button'>
             <LuSearch size={30} />
           </button>

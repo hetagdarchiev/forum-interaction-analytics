@@ -91,7 +91,7 @@ export function BurgerMenu({ menuRef }: BurgerMenuProps) {
         <div className='border-gray-9e/10 rounded-[10px] border'>
           <Link
             className='border-gray-9e/10 flex w-full items-center justify-center gap-x-2.5 border-b p-2.5'
-            href={AppRouter.profile}
+            href={AppRouter.profile.root}
             title={user ? user.name : 'user'}
             onClick={() => setIsOpen(false)}
           >

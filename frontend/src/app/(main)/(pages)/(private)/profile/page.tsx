@@ -1,33 +1,34 @@
 'use client';
 
-import { useEffect } from 'react';
-import { MdEdit } from 'react-icons/md';
-import { useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
+import { ProfileHero } from '@/widgets/profile-hero';
+import { ProfileChapterList, ProfileSidebar } from '@/widgets/profile-sidebar';
+import { ProfileStats } from '@/widgets/profile-stats';
 
-import { PostCard } from '@/entities/post';
-import { useLogoutMutation } from '@/entities/session';
+import { ProfileDashboard } from '@/features/profile-dashboard';
 
-import { userMeOptions } from '@/shared/api/generated/@tanstack/react-query.gen';
-import { AppRouter } from '@/shared/config/app-router';
-import { ProfileAvatar } from '@/shared/ui';
-import { Button } from '@/shared/ui/Button';
+import { useUser } from '@/entities/user';
+
+import { cn } from '@/shared/lib/classNames';
+import { Container, Loader } from '@/shared/ui';
 
 export default function Profile() {
-  const router = useRouter();
-  const { data: user, isLoading } = useQuery(userMeOptions());
-  const { mutate: logout } = useLogoutMutation();
+  const { user, error, isLoading } = useUser();
 
-  useEffect(() => {
-    if (!isLoading && !user) {
-      router.push(AppRouter.login);
-    }
-  }, [user, isLoading, router]);
+  if (isLoading || !user) {
+    return (
+      <Container className='flex h-screen items-center justify-center py-24'>
+        <Loader size='sm' />
+      </Container>
+    );
+  }
 
-  if (isLoading) return <p>Loading profile...</p>;
-  if (!user) return null;
-
-  const { id, name, email, avatarUrl } = user;
+  if (error) {
+    return (
+      <Container className='flex items-center justify-center py-24'>
+        <div>{error.message}</div>
+      </Container>
+    );
+  }
 
   return (
     <main className='flex-1 bg-white px-2.5 py-2.5'>

@@ -162,7 +162,15 @@ export function BurgerMenu({ menuRef }: BurgerMenuProps) {
       </nav>
       {isAuthenticated && <ProfileActions />}
       {isAuthenticated && (
-        <Button color='red' className='w-full' onClick={logout}>
+        <Button
+          color='red'
+          className='w-full'
+          onClick={() => {
+            if (window.confirm('Вы уверены, что хотите выйти?')) {
+              logout({});
+            }
+          }}
+        >
           Выйти
         </Button>
       )}

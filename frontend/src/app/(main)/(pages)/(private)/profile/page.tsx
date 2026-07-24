@@ -74,7 +74,14 @@ export default function Profile() {
               <MdEdit size={24} />
               Редактировать
             </Button>
-            <Button onClick={logout} className='gap-x-2.5'>
+            <Button
+              onClick={() => {
+                if (window.confirm('Вы уверены, что хотите выйти?')) {
+                  logout();
+                }
+              }}
+              className='gap-x-2.5'
+            >
               Выйти
             </Button>
           </div>

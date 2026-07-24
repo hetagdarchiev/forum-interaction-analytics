@@ -92,9 +92,12 @@ export function ProfileActions({ className }: Props) {
               />
             </Link>
           ))}
-        <Link className='flex items-center gap-x-2.5' href={AppRouter.profile}>
+        <Link
+          className='flex items-center gap-x-2.5'
+          href={AppRouter.profile.root}
+        >
           <ProfileAvatar width={30} authorName={user ? user.name : 'Avatar'} />
-          <p>{user ? user.name : 'Anonym'}</p>
+          <p className='max-w-32 truncate'>{user ? user.name : 'Anonym'}</p>
         </Link>
       </div>
     </nav>

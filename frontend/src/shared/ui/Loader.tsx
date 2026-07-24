@@ -15,16 +15,10 @@ const sizeClasses = {
 export const Loader = ({ size = 'md', className, ...attrs }: LoaderProps) => (
   <div
     className={cn(
-      'flex h-full w-full items-center justify-center bg-transparent p-4',
+      'border-purple-67 border-t-purple-9d animate-spin rounded-full',
+      sizeClasses[size],
       className,
     )}
     {...attrs}
-  >
-    <div
-      className={cn(
-        'border-purple-67 border-t-purple-9d animate-spin rounded-full',
-        sizeClasses[size],
-      )}
-    />
-  </div>
+  />
 );

@@ -16,7 +16,7 @@ import heroImage from '@/shared/assets/images/hero.png';
 import logoLetterImage from '@/shared/assets/images/logo-letter.png';
 import { AppRouter } from '@/shared/config/app-router';
 import { cn } from '@/shared/lib/classNames';
-import { Button, Container, ProfileAvatar } from '@/shared/ui';
+import { Button, Container, ProfileAvatar, ViewAllLink } from '@/shared/ui';
 
 // ---------------------------------------------------------------------------
 // Статичные данные (В будущем заменить на данные из БД)
@@ -266,13 +266,10 @@ export default function Home() {
           <h2 id='sections-heading' className='text-xl font-bold lg:text-2xl'>
             Популярные разделы
           </h2>
-          <Link
+          <ViewAllLink
             href={AppRouter.questions}
-            className='text-purple-67 hover:text-purple-86 flex items-center gap-2 text-base font-bold transition-colors'
-          >
-            Смотреть все разделы
-            <BsArrowRight size={18} aria-hidden='true' />
-          </Link>
+            label='Смотреть все разделы'
+          />
         </div>
 
         <ul className='grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4'>
@@ -539,7 +536,7 @@ export default function Home() {
               <li key={id}>
                 <Link
                   href={AppRouter.main}
-                  className='bg-dark-1b hover:bg-dark-1b/80 group flex h-full flex-col overflow-hidden rounded-[20px] transition hover:scale-125'
+                  className='bg-dark-1b hover:bg-dark-1b/80 group flex h-full flex-col overflow-hidden rounded-[20px] transition hover:scale-105'
                 >
                   <div className='bg-dark-1b/50 text-gray-9e relative h-37.5 sm:h-50'>
                     <Image

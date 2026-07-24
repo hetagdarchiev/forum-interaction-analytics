@@ -11,4 +11,5 @@ export * from './select';
 export { Skeleton } from './Skeleton';
 export { ScrollX } from './ScrollX';
 export { Tag } from './Tag';
+export { ViewAllLink } from './ViewAllLink';
 export { Tile } from './Tile';

@@ -86,7 +86,6 @@ export function BurgerMenu({ menuRef }: BurgerMenuProps) {
         'lg:hidden',
       )}
     >
-      {!isAuthenticated && <AuthButtons />}
       {isAuthenticated && (
         <div className='border-gray-9e/10 rounded-[10px] border'>
           <Link
@@ -98,12 +97,11 @@ export function BurgerMenu({ menuRef }: BurgerMenuProps) {
             <ProfileAvatar
               width={60}
               height={60}
-              unoptimized
               authorName={user ? user.name : 'user'}
               avatarUrl={user?.avatarUrl}
             />
             <div className='p-2.5'>
-              <h2 className='text-[18px]'>{user ? user.name : 'User'}</h2>
+              <h2 className='text-[18px]'>{user ? user.name : 'Anonym'}</h2>
               <p className='text-gray-9e text-sm'>
                 {user ? user.id : 'Anonym'}
               </p>
@@ -160,7 +158,7 @@ export function BurgerMenu({ menuRef }: BurgerMenuProps) {
           );
         })}
       </nav>
-      {isAuthenticated && <ProfileActions />}
+      {isAuthenticated ? <ProfileActions /> : <AuthButtons />}
       {isAuthenticated && (
         <Button
           color='red'

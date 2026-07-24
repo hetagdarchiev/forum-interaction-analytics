@@ -9,4 +9,5 @@ export { Pagination } from './Pagination';
 export { ProfileAvatar } from './ProfileAvatar';
 export * from './select';
 export { Skeleton } from './Skeleton';
+export { ScrollX } from './ScrollX';
 export { Tag } from './Tag';

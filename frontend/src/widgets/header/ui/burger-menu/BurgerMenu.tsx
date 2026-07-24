@@ -50,8 +50,8 @@ const userStats = [
 export function BurgerMenu({ menuRef }: BurgerMenuProps) {
   const isOpen = useMenuIsOpen();
   const setIsOpen = useMenuActions().setIsOpen;
-  const isAuthenticated = useAuthStore(selectIsAuthenticated);
   const pathname = usePathname();
+  const isAuthenticated = useAuthStore(selectIsAuthenticated);
   const { data: user } = useAuthMeQuery({ enabled: isAuthenticated });
   const { mutate: logout } = useLogoutMutation();
 

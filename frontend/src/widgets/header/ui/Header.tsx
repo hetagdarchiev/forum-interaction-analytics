@@ -4,6 +4,7 @@ import { RefObject, useEffect } from 'react';
 import { LuSearch } from 'react-icons/lu';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import { navLinks } from '../model/navLinks';
 
@@ -37,6 +38,7 @@ export function Header(props: HeaderProps) {
   const { menuRef, burgerRef } = props;
   const isAuthenticated = useAuthStore(selectIsAuthenticated);
   const status = useAuthStore(selectStatus);
+  const pathname = usePathname();
 
   const isLoading = status === 'loading';
 
@@ -82,11 +84,20 @@ export function Header(props: HeaderProps) {
 
         <ScrollX className='py-2'>
           <nav className='[&_a:hover]:text-purple-67 hidden shrink gap-x-5 text-[18px] font-medium lg:flex [&_a]:transition-colors'>
-            {navLinks.map(({ label, href }) => (
-              <Link key={label} href={href}>
-                {label}
-              </Link>
-            ))}
+            {navLinks.map(({ label, href }) => {
+              const isActive =
+                href === '/' ? pathname === href : pathname.startsWith(href);
+
+              return (
+                <Link
+                  key={label}
+                  href={href}
+                  className={cn(isActive && 'text-purple-67')}
+                >
+                  {label}
+                </Link>
+              );
+            })}
           </nav>
         </ScrollX>
 

@@ -96,12 +96,20 @@ export function ProfileActions({ className }: Props) {
                 className='min-h-7.5 min-w-7.5'
               />
             </Link>
-          ))}
-        <Link className='flex items-center gap-x-2.5' href={AppRouter.profile}>
-          <ProfileAvatar width={30} authorName={user ? user.name : 'Avatar'} />
-          <p className='max-w-32 truncate'>{user ? user.name : 'Anonym'}</p>
-        </Link>
-      </div>
+          </li>
+        ))}
+        <li className='size-6.25'>
+          <Link href={AppRouter.profile.root} title={user ? user.name : 'user'}>
+            <ProfileAvatar
+              width={25}
+              height={25}
+              unoptimized
+              authorName={user ? user.name : 'user'}
+              avatarUrl={user?.avatarUrl}
+            />
+          </Link>
+        </li>
+      </ul>
     </nav>
   );
 }

@@ -14,6 +14,7 @@ import { selectIsAuthenticated, useAuthStore } from '@/entities/session';
 import { useAuthMeQuery } from '@/entities/user';
 
 import { AppRouter } from '@/shared/config/app-router';
+import { useMenuActions } from '@/shared/hooks/useMenu.selectors';
 import { cn } from '@/shared/lib/classNames';
 import { Button, ProfileAvatar } from '@/shared/ui';
 
@@ -21,23 +22,23 @@ const navigations = [
   {
     name: 'Notifications',
     Icon: IoNotificationsSharp,
-    href: AppRouter.notification,
+    href: AppRouter.profile,
   },
   {
     name: 'Messages',
     Icon: IoChatboxSharp,
-    href: AppRouter.faq,
+    href: AppRouter.profile,
   },
   {
     name: 'Favorites',
     Icon: IoBookmarkSharp,
-    href: AppRouter.favorites,
+    href: AppRouter.profile,
   },
 
   {
     name: 'Settings',
     Icon: IoSettingsSharp,
-    href: AppRouter.main,
+    href: AppRouter.profile,
   },
 ] satisfies NavigationItem[];
 
@@ -48,9 +49,11 @@ interface Props {
 export function ProfileActions({ className }: Props) {
   const isAuthenticated = useAuthStore(selectIsAuthenticated);
   const { data: user } = useAuthMeQuery({ enabled: isAuthenticated });
+  const setIsOpen = useMenuActions().setIsOpen;
 
   return (
     <nav className={cn(className)}>
+      {/* Вид на мобилках */}
       <div className='flex justify-between gap-x-5 lg:hidden'>
         {navigations.map(({ name, Icon, href }) => (
           <Button
@@ -59,6 +62,7 @@ export function ProfileActions({ className }: Props) {
             aria-label={name}
             title={name}
             color='ghost'
+            onClick={() => setIsOpen(false)}
             className='border-gray-9e/10 flex aspect-square items-center justify-center rounded-[10px] border p-2.5'
           >
             <Icon
@@ -71,6 +75,7 @@ export function ProfileActions({ className }: Props) {
           </Button>
         ))}
       </div>
+      {/* Вид на компах */}
       <div className='hidden gap-x-6 lg:flex'>
         {navigations
           .filter(({ name }) =>

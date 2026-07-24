@@ -86,7 +86,6 @@ export function BurgerMenu({ menuRef }: BurgerMenuProps) {
         'lg:hidden',
       )}
     >
-      {!isAuthenticated && <AuthButtons />}
       {isAuthenticated && (
         <div className='border-gray-9e/10 rounded-[10px] border'>
           <Link
@@ -160,7 +159,7 @@ export function BurgerMenu({ menuRef }: BurgerMenuProps) {
           );
         })}
       </nav>
-      {isAuthenticated && <ProfileActions />}
+      {isAuthenticated ? <ProfileActions /> : <AuthButtons />}
       {isAuthenticated && (
         <Button
           color='red'

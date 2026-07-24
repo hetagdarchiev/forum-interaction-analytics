@@ -77,7 +77,7 @@ export default function Profile() {
             <Button
               onClick={() => {
                 if (window.confirm('Вы уверены, что хотите выйти?')) {
-                  logout();
+                  logout({});
                 }
               }}
               className='gap-x-2.5'

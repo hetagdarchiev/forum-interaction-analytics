@@ -15,7 +15,7 @@ import {
   useAuthStore,
   useLogoutMutation,
 } from '@/entities/session';
-import { useAuthMeQuery } from '@/entities/user';
+import { useUser } from '@/entities/user';
 
 import { AppRouter } from '@/shared/config/app-router';
 import {
@@ -52,7 +52,8 @@ export function BurgerMenu({ menuRef }: BurgerMenuProps) {
   const setIsOpen = useMenuActions().setIsOpen;
   const pathname = usePathname();
   const isAuthenticated = useAuthStore(selectIsAuthenticated);
-  const { data: user } = useAuthMeQuery({ enabled: isAuthenticated });
+  const { user } = useUser({ enabled: isAuthenticated });
+  const userData = user?.user;
   const { mutate: logout } = useLogoutMutation();
 
   const isLinkActive = (href: string) => {
@@ -91,19 +92,21 @@ export function BurgerMenu({ menuRef }: BurgerMenuProps) {
           <Link
             className='border-gray-9e/10 flex w-full items-center justify-center gap-x-2.5 border-b p-2.5'
             href={AppRouter.profile.root}
-            title={user ? user.name : 'user'}
+            title={userData ? userData.name : 'user'}
             onClick={() => setIsOpen(false)}
           >
             <ProfileAvatar
               width={60}
               height={60}
-              authorName={user ? user.name : 'user'}
-              avatarUrl={user?.avatarUrl}
+              authorName={userData ? userData.name : 'user'}
+              avatarUrl={userData?.avatarUrl}
             />
             <div className='p-2.5'>
-              <h2 className='text-[18px]'>{user ? user.name : 'Anonym'}</h2>
+              <h2 className='text-[18px]'>
+                {userData ? userData.name : 'Anonym'}
+              </h2>
               <p className='text-gray-9e text-sm'>
-                {user ? user.id : 'Anonym'}
+                {userData ? userData.id : 'Anonym'}
               </p>
             </div>
           </Link>

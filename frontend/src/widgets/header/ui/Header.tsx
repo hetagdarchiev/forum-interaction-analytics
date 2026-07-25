@@ -13,11 +13,7 @@ import { Burger } from './burger/Burger';
 import { AuthButtons } from '@/features/auth-buttons';
 import { ProfileActions } from '@/features/profile-actions';
 
-import {
-  selectIsAuthenticated,
-  selectStatus,
-  useAuthStore,
-} from '@/entities/session';
+import { selectIsAuthenticated, useAuthStore } from '@/entities/session';
 
 import logo from '@/shared/assets/images/logo.svg';
 import { AppRouter } from '@/shared/config/app-router';
@@ -27,7 +23,7 @@ import {
 } from '@/shared/hooks/useMenu.selectors';
 import { useModal } from '@/shared/hooks/useModal';
 import { cn } from '@/shared/lib/classNames';
-import { Container, Loader, ScrollX } from '@/shared/ui';
+import { Container, ScrollX } from '@/shared/ui';
 
 interface HeaderProps {
   menuRef: RefObject<HTMLElement | null>;
@@ -36,10 +32,8 @@ interface HeaderProps {
 
 export function Header(props: HeaderProps) {
   const { menuRef, burgerRef } = props;
-  const status = useAuthStore(selectStatus);
   const pathname = usePathname();
 
-  const isLoading = status === 'loading';
   const isAuthenticated = useAuthStore(selectIsAuthenticated);
 
   const isOpen = useMenuIsOpen();
@@ -105,26 +99,17 @@ export function Header(props: HeaderProps) {
           <button title='Search' aria-label='Search button'>
             <LuSearch size={30} />
           </button>
-          {isLoading ? (
-            <div className='hidden lg:flex'>
-              <Loader size='sm' />
-            </div>
-          ) : isAuthenticated ? (
+          {isAuthenticated ? (
             <ProfileActions className='hidden lg:flex' />
           ) : (
             <AuthButtons className='hidden lg:flex' />
           )}
           <Burger
             isOpen={isOpen}
-            setIsOpen={isLoading ? () => {} : setMenuOpen}
+            setIsOpen={setMenuOpen}
             ref={burgerRef}
             controls='aside-menu'
-            disabled={isLoading}
-            aria-disabled={isLoading}
-            className={cn(
-              'justify-self-end lg:hidden',
-              isLoading && 'pointer-events-none opacity-40',
-            )}
+            className='justify-self-end lg:hidden'
           />
         </div>
       </Container>

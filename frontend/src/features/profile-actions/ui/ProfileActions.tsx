@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { NavigationItem } from '../model/types/navigation-item.types';
 
 import { selectIsAuthenticated, useAuthStore } from '@/entities/session';
-import { useAuthMeQuery } from '@/entities/user';
+import { useUser } from '@/entities/user';
 
 import { AppRouter } from '@/shared/config/app-router';
 import { cn } from '@/shared/lib/classNames';
@@ -47,7 +47,8 @@ interface Props {
 
 export function ProfileActions({ className }: Props) {
   const isAuthenticated = useAuthStore(selectIsAuthenticated);
-  const { data: user } = useAuthMeQuery({ enabled: isAuthenticated });
+  const { user } = useUser({ enabled: isAuthenticated });
+  const userData = user?.user;
 
   return (
     <nav className={cn(className)}>
@@ -96,8 +97,14 @@ export function ProfileActions({ className }: Props) {
           className='flex items-center gap-x-2.5'
           href={AppRouter.profile.root}
         >
-          <ProfileAvatar width={30} authorName={user ? user.name : 'Avatar'} />
-          <p className='max-w-32 truncate'>{user ? user.name : 'Anonym'}</p>
+          <ProfileAvatar
+            width={30}
+            authorName={userData ? userData.name : 'Avatar'}
+            avatarUrl={userData?.avatarUrl}
+          />
+          <p className='max-w-32 truncate'>
+            {userData ? userData.name : 'Anonym'}
+          </p>
         </Link>
       </div>
     </nav>

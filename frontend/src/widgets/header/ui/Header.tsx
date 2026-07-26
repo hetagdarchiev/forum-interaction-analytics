@@ -77,7 +77,7 @@ export function Header(props: HeaderProps) {
         </Link>
 
         <ScrollX className='py-2'>
-          <nav className='[&_a:hover]:text-purple-67 hidden shrink gap-x-5 text-[18px] font-medium lg:flex [&_a]:transition-colors'>
+          <nav className='[&_a:hover]:text-purple-67 hidden shrink gap-x-5 text-[18px] font-medium xl:flex [&_a]:transition-colors'>
             {navLinks.map(({ label, href }) => {
               const isActive =
                 href === '/' ? pathname === href : pathname.startsWith(href);
@@ -107,16 +107,16 @@ export function Header(props: HeaderProps) {
             <LuSearch size={30} />
           </button>
           {isAuthenticated ? (
-            <ProfileActions className='hidden lg:flex' />
+            <ProfileActions className='hidden xl:flex' />
           ) : (
-            <AuthButtons className='hidden lg:flex' />
+            <AuthButtons className='hidden xl:flex' />
           )}
           <Burger
             isOpen={isOpen}
             setIsOpen={setMenuOpen}
             ref={burgerRef}
             controls='aside-menu'
-            className='justify-self-end lg:hidden'
+            className='justify-self-end xl:hidden'
           />
         </div>
       </Container>

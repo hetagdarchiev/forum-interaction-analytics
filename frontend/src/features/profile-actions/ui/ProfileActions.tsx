@@ -52,7 +52,7 @@ export function ProfileActions({ className }: Props) {
 
   return (
     <nav className={cn(className)}>
-      <div className='flex justify-between gap-x-5 lg:hidden'>
+      <div className='flex justify-between gap-x-5 xl:hidden'>
         {navigations.map(({ name, Icon, href }) => (
           <Button
             key={name.toLowerCase()}
@@ -72,7 +72,7 @@ export function ProfileActions({ className }: Props) {
           </Button>
         ))}
       </div>
-      <div className='hidden gap-x-6 lg:flex'>
+      <div className='hidden gap-x-6 xl:flex'>
         {navigations
           .filter(({ name }) =>
             ['messages', 'notifications'].includes(name.toLowerCase()),

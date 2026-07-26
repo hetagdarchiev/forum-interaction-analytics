@@ -84,7 +84,7 @@ export function BurgerMenu({ menuRef }: BurgerMenuProps) {
         'bg-dark-1b flex min-h-0 w-screen max-w-full flex-col gap-y-5 overflow-y-auto px-2.5 py-18.5 duration-300 ease-in-out',
         !isOpen && '-translate-x-full',
         'sm:w-80',
-        'lg:hidden',
+        'xl:hidden',
       )}
     >
       {isAuthenticated && (

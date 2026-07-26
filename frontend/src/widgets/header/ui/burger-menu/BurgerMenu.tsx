@@ -145,12 +145,20 @@ export function BurgerMenu({ menuRef }: BurgerMenuProps) {
               key={label}
               href={href}
               aria-current={isActive ? 'page' : undefined}
-              onClick={() => setIsOpen(false)}
+              aria-disabled={isActive}
+              onClick={(event) => {
+                if (isActive) {
+                  event.preventDefault();
+                  return;
+                }
+
+                setIsOpen(false);
+              }}
+              color='ghost'
               className={cn(
                 'text-gray-9e w-full justify-start gap-x-3',
                 isActive && 'bg-purple-67 text-white',
               )}
-              color='ghost'
             >
               <Icon
                 className='size-5 shrink-0 text-current'

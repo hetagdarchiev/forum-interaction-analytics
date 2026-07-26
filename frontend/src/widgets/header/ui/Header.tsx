@@ -86,7 +86,14 @@ export function Header(props: HeaderProps) {
                 <Link
                   key={label}
                   href={href}
-                  className={cn(isActive && 'text-purple-67')}
+                  className={cn(
+                    isActive && 'text-purple-67 cursor-not-allowed',
+                  )}
+                  onClick={(event) => {
+                    if (isActive) {
+                      event.preventDefault();
+                    }
+                  }}
                 >
                   {label}
                 </Link>

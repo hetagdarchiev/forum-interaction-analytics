@@ -80,9 +80,9 @@ export function BurgerMenu({ menuRef }: BurgerMenuProps) {
       inert={!isOpen}
       ref={menuRef}
       className={cn(
-        'fixed top-0 right-0 bottom-0 z-40',
+        'fixed top-0 bottom-0 left-0 z-40',
         'bg-dark-1b flex min-h-0 w-screen max-w-full flex-col gap-y-5 overflow-y-auto px-2.5 py-18.5 duration-300 ease-in-out',
-        !isOpen && 'translate-x-full',
+        !isOpen && '-translate-x-full',
         'sm:w-80',
         'lg:hidden',
       )}

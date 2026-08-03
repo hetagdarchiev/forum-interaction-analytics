@@ -54,7 +54,7 @@ export default function NotFound() {
               <Button
                 href={AppRouter.threads}
                 color='bordered'
-                className='mx-auto w-full gap-3'
+                className='w-full gap-3 lg:w-auto'
               >
                 <LuMessagesSquare size={24} aria-hidden='true' />
                 Перейти на форум

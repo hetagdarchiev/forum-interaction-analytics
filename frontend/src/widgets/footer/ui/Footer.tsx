@@ -13,17 +13,17 @@ import { AppRouter } from '@/shared/config/app-router';
 import { Button, Container, Input, Label } from '@/shared/ui';
 
 const navigationLinks = [
-  { label: 'Форум', href: AppRouter.main },
+  { label: 'Форум', href: AppRouter.threads },
   { label: 'Участники', href: AppRouter.main },
   { label: 'Блог', href: AppRouter.main },
-  { label: 'Правила', href: AppRouter.main },
+  { label: 'Правила', href: AppRouter.rules.root },
 ];
 
 const supportLinks = [
-  { label: 'Помощь', href: AppRouter.main },
-  { label: 'Правила форума', href: AppRouter.main },
-  { label: 'Обратная связь', href: AppRouter.main },
-  { label: 'Баг-трекер', href: AppRouter.main },
+  { label: 'Помощь', href: AppRouter.support },
+  { label: 'Правила форума', href: AppRouter.rules.root },
+  { label: 'Обратная связь', href: AppRouter.support },
+  { label: 'Баг-трекер', href: AppRouter.support },
 ];
 
 const legalLinks = [
@@ -43,10 +43,16 @@ export function Footer() {
   return (
     <footer className='bg-dark-0e relative after:absolute after:top-0 after:right-0 after:left-0 after:h-px after:bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--color-light)_15%,transparent),transparent)] after:content-[""]'>
       <Container>
-        <div className='grid grid-cols-1 justify-between gap-10 py-12.5 sm:grid-cols-2 xl:grid-cols-[auto_auto_auto_auto]'>
+        <div className='grid grid-cols-1 justify-between gap-10 py-8 sm:grid-cols-2 lg:py-12.5 xl:grid-cols-[auto_auto_auto_auto]'>
           <section>
             <Link href={AppRouter.main} className='inline-flex'>
-              <Image src={logo} alt='Comunicore' width={240} height={44} />
+              <Image
+                src={logo}
+                alt='Comunicore'
+                width={180}
+                height={33}
+                className='w-34 lg:w-42'
+              />
             </Link>
 
             <p className='text-gray-9e mt-4 max-w-64 text-[16px] leading-5'>
@@ -99,7 +105,7 @@ export function Footer() {
               Подпишитесь на новости
             </h2>
             <p className='text-gray-9e mt-3 max-w-80 text-[16px] leading-5'>
-              Получай уведомления о вакансиях обновлениях и событиях форума.
+              Получай уведомления о вакансиях, обновлениях и событиях форума.
             </p>
 
             <form className='mt-7.5 flex flex-col gap-3 md:flex-row'>

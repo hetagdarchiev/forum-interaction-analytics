@@ -4,5 +4,5 @@ export const navLinks = [
   { label: 'Форум', href: AppRouter.threads },
   { label: 'Участники', href: AppRouter.main },
   { label: 'Блог', href: AppRouter.main },
-  { label: 'Правила', href: AppRouter.main },
+  { label: 'Правила', href: AppRouter.rules.root },
 ];

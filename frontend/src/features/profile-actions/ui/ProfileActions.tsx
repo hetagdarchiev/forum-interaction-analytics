@@ -1,9 +1,12 @@
 'use client';
 
-import { BsQuestionCircle } from 'react-icons/bs';
-import { LuInbox, LuStar } from 'react-icons/lu';
+import {
+  IoBookmarkSharp,
+  IoChatboxSharp,
+  IoNotificationsSharp,
+  IoSettingsSharp,
+} from 'react-icons/io5';
 import Link from 'next/link';
-import clsx from 'clsx';
 
 import { NavigationItem } from '../model/types/navigation-item.types';
 
@@ -11,23 +14,30 @@ import { selectIsAuthenticated, useAuthStore } from '@/entities/session';
 import { useUser } from '@/entities/user';
 
 import { AppRouter } from '@/shared/config/app-router';
-import { ProfileAvatar } from '@/shared/ui';
+import { cn } from '@/shared/lib/classNames';
+import { Button, ProfileAvatar } from '@/shared/ui';
 
 const navigations = [
   {
     name: 'Notifications',
-    Icon: LuInbox,
+    Icon: IoNotificationsSharp,
     href: AppRouter.notification,
   },
   {
-    name: 'FAQ',
-    Icon: BsQuestionCircle,
+    name: 'Messages',
+    Icon: IoChatboxSharp,
     href: AppRouter.faq,
   },
   {
     name: 'Favorites',
-    Icon: LuStar,
+    Icon: IoBookmarkSharp,
     href: AppRouter.favorites,
+  },
+
+  {
+    name: 'Settings',
+    Icon: IoSettingsSharp,
+    href: AppRouter.main,
   },
 ] satisfies NavigationItem[];
 
@@ -36,42 +46,67 @@ interface Props {
 }
 
 export function ProfileActions({ className }: Props) {
-  const isAuth = useAuthStore(selectIsAuthenticated);
-  const { user } = useUser({ enabled: isAuth });
-
+  const isAuthenticated = useAuthStore(selectIsAuthenticated);
+  const { user } = useUser({ enabled: isAuthenticated });
   const userData = user?.user;
 
   return (
-    <nav className={clsx(className)}>
-      <ul className='flex items-center gap-x-5'>
+    <nav className={cn(className)}>
+      <div className='flex justify-between gap-x-5 xl:hidden'>
         {navigations.map(({ name, Icon, href }) => (
-          <li key={name.toLowerCase()}>
-            <Link href={href} aria-label={name} title={name}>
+          <Button
+            key={name.toLowerCase()}
+            href={href}
+            aria-label={name}
+            title={name}
+            color='ghost'
+            className='border-gray-9e/10 flex aspect-square items-center justify-center rounded-[10px] border p-2.5'
+          >
+            <Icon
+              aria-label={name}
+              width={30}
+              height={30}
+              title={name}
+              className='min-h-7.5 min-w-7.5'
+            />
+          </Button>
+        ))}
+      </div>
+      <div className='hidden gap-x-6 xl:flex'>
+        {navigations
+          .filter(({ name }) =>
+            ['messages', 'notifications'].includes(name.toLowerCase()),
+          )
+          .map(({ name, Icon, href }) => (
+            <Link
+              key={name.toLowerCase()}
+              href={href}
+              aria-label={name}
+              title={name}
+            >
               <Icon
                 aria-label={name}
-                width={24}
-                height={24}
+                width={30}
+                height={30}
                 title={name}
-                className='min-h-6 min-w-6'
+                className='min-h-7.5 min-w-7.5'
               />
             </Link>
-          </li>
-        ))}
-        <li className='size-6.25'>
-          <Link
-            href={AppRouter.profile.root}
-            title={userData ? userData.name : 'user'}
-          >
-            <ProfileAvatar
-              width={25}
-              height={25}
-              unoptimized
-              authorName={userData ? userData.name : 'user'}
-              avatarUrl={userData?.avatarUrl}
-            />
-          </Link>
-        </li>
-      </ul>
+          ))}
+        <Link
+          className='flex items-center gap-x-2.5'
+          href={AppRouter.profile.root}
+        >
+          <ProfileAvatar
+            width={30}
+            authorName={userData ? userData.name : 'Avatar'}
+            avatarUrl={userData?.avatarUrl}
+          />
+          <p className='max-w-32 truncate'>
+            {userData ? userData.name : 'Anonym'}
+          </p>
+        </Link>
+      </div>
     </nav>
   );
 }

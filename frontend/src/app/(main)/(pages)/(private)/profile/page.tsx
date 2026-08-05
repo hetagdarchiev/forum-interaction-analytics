@@ -10,18 +10,11 @@ import { useUser } from '@/entities/user';
 
 import { cn } from '@/shared/lib/classNames';
 import { getErrorMessage } from '@/shared/lib/helpers/getErrorMessage';
-import { Container, Loader } from '@/shared/ui';
+import { Container } from '@/shared/ui';
 
 export default function Profile() {
-  const { user, error, isLoading } = useUser();
+  const { user, error } = useUser();
 
-  if (isLoading || !user) {
-    return (
-      <Container className='flex h-screen items-center justify-center py-24'>
-        <Loader size='sm' />
-      </Container>
-    );
-  }
   if (error) {
     return (
       <Container className='flex items-center justify-center py-24'>
@@ -30,7 +23,11 @@ export default function Profile() {
     );
   }
 
-  const userData = user.user;
+  const userData = user?.user;
+
+  if (!userData) {
+    return null; // Либо аккуратный скелетон, чтобы не дергать экран
+  }
 
   return (
     <Container className='flex flex-col gap-y-12.5 py-12.5'>
@@ -51,7 +48,7 @@ export default function Profile() {
         <ProfileSidebar user={userData} />
         <ProfileChapterList className='xl:hidden' />
 
-        <ProfileDashboard userId={userData?.id} />
+        <ProfileDashboard userId={userData.id} />
       </section>
     </Container>
   );

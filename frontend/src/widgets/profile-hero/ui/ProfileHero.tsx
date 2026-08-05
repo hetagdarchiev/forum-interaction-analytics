@@ -88,7 +88,6 @@ export function ProfileHero(props: { user: User }) {
               <Button
                 href={AppRouter.profile.edit}
                 color='purple'
-                hoverStyle='pink'
                 className='whitespace-nowrap'
               >
                 Редактировать профиль

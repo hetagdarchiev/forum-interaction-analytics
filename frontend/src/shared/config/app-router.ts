@@ -20,6 +20,10 @@ export const AppRouter = {
   support: '/support',
   award: '/award',
   notification: '/notifications',
+  blog: {
+    root: '/blog',
+  },
+  participants: '/participants',
   profile: {
     root: '/profile',
     get edit() {

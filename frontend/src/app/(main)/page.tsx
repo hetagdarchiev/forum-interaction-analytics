@@ -13,9 +13,10 @@ import Link from 'next/link';
 
 import ctaImage from '@/shared/assets/images/cta-bg.png';
 import heroImage from '@/shared/assets/images/hero.png';
+import logoLetterImage from '@/shared/assets/images/logo-letter.png';
 import { AppRouter } from '@/shared/config/app-router';
 import { cn } from '@/shared/lib/classNames';
-import { Button, Container, ProfileAvatar } from '@/shared/ui';
+import { Button, Container, ProfileAvatar, ViewAllLink } from '@/shared/ui';
 
 // ---------------------------------------------------------------------------
 // Статичные данные (В будущем заменить на данные из БД)
@@ -205,8 +206,21 @@ const blogPosts = [
 export default function Home() {
   return (
     <Container>
-      <section aria-labelledby='hero-heading'>
-        <div className='flex flex-col items-start justify-between gap-10 py-16 lg:flex-row lg:items-center lg:py-20'>
+      <section
+        aria-labelledby='hero-heading'
+        className='relative overflow-hidden'
+      >
+        <div
+          aria-hidden='true'
+          className='pointer-events-none absolute inset-0 bg-contain bg-center bg-no-repeat opacity-20 lg:hidden'
+          style={{
+            backgroundImage: `url(${logoLetterImage.src})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+          }}
+        />
+
+        <div className='relative flex flex-col items-start justify-between gap-10 py-16 lg:flex-row lg:items-center lg:py-20'>
           <div className='flex max-w-137.5 flex-col gap-y-6'>
             <h1
               id='hero-heading'
@@ -221,7 +235,7 @@ export default function Home() {
               <span className='text-purple-67'>Comunicore</span>
             </h1>
 
-            <p className='text-gray-9e leading-6'>
+            <p className='text-gray-light leading-6'>
               Comunicore — это форум для тех, кто ценит живое общение, обмен
               знаниями и поддержку сообщества. Присоединяйся и стань частью
               чего-то большего.
@@ -252,13 +266,10 @@ export default function Home() {
           <h2 id='sections-heading' className='text-xl font-bold lg:text-2xl'>
             Популярные разделы
           </h2>
-          <Link
+          <ViewAllLink
             href={AppRouter.questions}
-            className='text-purple-67 hover:text-purple-86 flex items-center gap-2 text-base font-bold transition-colors'
-          >
-            Смотреть все разделы
-            <BsArrowRight size={18} aria-hidden='true' />
-          </Link>
+            label='Смотреть все разделы'
+          />
         </div>
 
         <ul className='grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4'>
@@ -277,7 +288,6 @@ export default function Home() {
                   href={AppRouter.questions}
                   className='bg-dark-1b/50 hover:bg-dark-1b group flex h-full flex-col rounded-xl p-7.5 transition-colors'
                 >
-                  {/* Иконка раздела */}
                   <div
                     className={cn(
                       'mb-4 flex size-10 items-center justify-center rounded-full',
@@ -526,7 +536,7 @@ export default function Home() {
               <li key={id}>
                 <Link
                   href={AppRouter.main}
-                  className='bg-dark-1b hover:bg-dark-1b/80 group flex h-full flex-col overflow-hidden rounded-[20px] transition-colors'
+                  className='bg-dark-1b hover:bg-dark-1b/80 group flex h-full flex-col overflow-hidden rounded-[20px] transition hover:scale-105'
                 >
                   <div className='bg-dark-1b/50 text-gray-9e relative h-37.5 sm:h-50'>
                     <Image

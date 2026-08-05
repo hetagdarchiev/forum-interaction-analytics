@@ -1,4 +1,5 @@
 import { AppRouter } from '@/shared/config/app-router';
+import { useMenuActions } from '@/shared/hooks/useMenu.selectors';
 import { cn } from '@/shared/lib/classNames';
 import { Button } from '@/shared/ui';
 
@@ -7,9 +8,12 @@ interface Props {
 }
 
 export function AuthButtons({ className }: Props) {
+  const setIsOpen = useMenuActions().setIsOpen;
+
   return (
     <div className={cn('flex gap-x-3', className)}>
       <Button
+        onClick={() => setIsOpen(false)}
         href={AppRouter.login}
         color='ghost'
         size='sm'
@@ -17,7 +21,11 @@ export function AuthButtons({ className }: Props) {
       >
         Войти
       </Button>
-      <Button href={AppRouter.registration} size='sm'>
+      <Button
+        onClick={() => setIsOpen(false)}
+        href={AppRouter.registration}
+        size='sm'
+      >
         Регистрация
       </Button>
     </div>

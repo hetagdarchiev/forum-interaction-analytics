@@ -4,6 +4,7 @@ import { Montserrat } from 'next/font/google';
 import Providers from './providers/providers';
 
 import './styles/globals.css';
+import './utils.css';
 
 const montserrat = Montserrat({
   variable: '--font-main',

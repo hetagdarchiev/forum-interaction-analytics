@@ -51,6 +51,9 @@ export function RegistrationForm() {
       className='flex w-full max-w-125 flex-col gap-y-5'
       onSubmit={handleSubmit(onSubmit)}
     >
+      <Label htmlFor='user-name' error={errors.name}>
+        Имя пользователя
+      </Label>
       <Input
         id='user-name'
         isError={errors.name?.message}
@@ -59,24 +62,26 @@ export function RegistrationForm() {
         icon={<FaRegUser size={20} />}
       />
       <Label htmlFor='user-email' error={errors.email}>
-        <LuAtSign size={24} aria-hidden={true} role='img' />
-        <Input
-          id='user-email'
-          isError={errors.email?.message}
-          placeholder='Почта'
-          {...register('email')}
-        />
+        Email
       </Label>
+      <Input
+        id='user-email'
+        isError={errors.email?.message}
+        placeholder='Введите ваш email'
+        {...register('email')}
+        icon={<LuAtSign size={20} />}
+      />
       <Label htmlFor='user-password' error={errors.password}>
-        <LuLock size={24} aria-hidden={true} role='img' />
-        <Input
-          id='user-password'
-          type='password'
-          isError={errors.password?.message}
-          placeholder='Пароль'
-          {...register('password')}
-        />
+        Пароль
       </Label>
+      <Input
+        id='user-password'
+        type='password'
+        isError={errors.password?.message}
+        placeholder='Введите ваш пароль'
+        {...register('password')}
+        icon={<LuLock size={20} />}
+      />
       <Label htmlFor='use-condition-agreement'>
         <Checkbox id='use-condition-agreement' {...register('policy')} />
         <span>Соглашаюсь с условиями пользования</span>

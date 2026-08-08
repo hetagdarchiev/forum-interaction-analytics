@@ -1,7 +1,8 @@
 'use client';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { LuAtSign, LuLock, LuUser } from 'react-icons/lu';
+import { FaRegUser } from 'react-icons/fa';
+import { LuAtSign, LuLock } from 'react-icons/lu';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useRegistration } from '../../model/hooks/useRegistration';
@@ -50,15 +51,13 @@ export function RegistrationForm() {
       className='flex w-full max-w-125 flex-col gap-y-5'
       onSubmit={handleSubmit(onSubmit)}
     >
-      <Label htmlFor='user-name' error={errors.name}>
-        <LuUser size={24} aria-hidden={true} role='img' />
-        <Input
-          id='user-name'
-          isError={errors.name?.message}
-          placeholder='Имя'
-          {...register('name')}
-        />
-      </Label>
+      <Input
+        id='user-name'
+        isError={errors.name?.message}
+        placeholder='Введите имя пользователя'
+        {...register('name')}
+        icon={<FaRegUser size={20} />}
+      />
       <Label htmlFor='user-email' error={errors.email}>
         <LuAtSign size={24} aria-hidden={true} role='img' />
         <Input

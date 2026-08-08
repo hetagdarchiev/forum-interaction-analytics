@@ -15,11 +15,7 @@ interface FormFieldProps extends InputHTMLAttributes<HTMLInputElement> {
 export const FormField = forwardRef<HTMLInputElement, FormFieldProps>(
   ({ label, error, icon, helperText, id, ...inputProps }, ref) => (
     <div className='flex flex-col gap-y-2'>
-      {label && (
-        <Label htmlFor={id} error={error}>
-          {label}
-        </Label>
-      )}
+      {label && <Label htmlFor={id}>{label}</Label>}
       <Input
         ref={ref}
         id={id}

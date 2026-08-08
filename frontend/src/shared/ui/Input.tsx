@@ -27,9 +27,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
           className,
         )}
       >
-        <div className={cn('text-gray-9e shrink-0', isError && 'text-red-ff')}>
-          {icon}
-        </div>
+        <div className='text-gray-9e shrink-0'>{icon}</div>
         <input
           className={cn(
             'text-light placeholder:text-light flex-1 bg-transparent text-[16px] outline-none',

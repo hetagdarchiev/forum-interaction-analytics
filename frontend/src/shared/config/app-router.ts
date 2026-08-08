@@ -58,6 +58,17 @@ export const AppRouter = {
     },
   },
 
+  // Политика
+  policy: {
+    root: '/policy',
+    get privacy() {
+      return `${this.root}/privacy`; // Конфиденциальность
+    },
+    get userAgreement() {
+      return `${this.root}/user-agreement`; // Пользовательское соглашение
+    },
+  },
+
   recovery: {
     root: '/recovery',
     get password() {

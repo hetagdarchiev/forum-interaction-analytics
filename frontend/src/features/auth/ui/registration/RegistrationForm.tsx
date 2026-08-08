@@ -137,11 +137,14 @@ export function RegistrationForm() {
           />
           <p className='text-[12px] font-normal'>
             Я принимаю{' '}
-            <Link href={AppRouter.rules.root} className='text-purple-86'>
+            <Link href={AppRouter.policy.privacy} className='text-purple-86'>
               Пользовательское соглашение
             </Link>
             <br />и{' '}
-            <Link href={AppRouter.rules.community} className='text-purple-86'>
+            <Link
+              href={AppRouter.policy.userAgreement}
+              className='text-purple-86'
+            >
               Политику конфиденциальности
             </Link>
           </p>

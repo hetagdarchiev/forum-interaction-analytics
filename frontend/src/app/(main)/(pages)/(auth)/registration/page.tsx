@@ -1,36 +1,75 @@
-import Link from 'next/link';
+import Image from 'next/image';
 
+// import Link from 'next/link';
 import { RegistrationForm } from '@/features/auth';
 
-import { AppRouter } from '@/shared/config/app-router';
+import bookMarkIcon from '@/shared/assets/icons/book-mark-purple.svg';
+import messageIcon from '@/shared/assets/icons/message-purple.svg';
+import peopleIcon from '@/shared/assets/icons/people-purple.svg';
+// import { AppRouter } from '@/shared/config/app-router';
+
+const heroCards = [
+  {
+    iconUrl: messageIcon,
+    title: 'Обсуждайте',
+    subtitle:
+      'Участвуйте в интересных дискуссиях и находите ответы на любые вопросы.',
+  },
+  {
+    iconUrl: peopleIcon,
+    title: 'Находите людей',
+    subtitle: 'Комьюнити профессионалов и энтузиастов со всего мира.',
+  },
+  {
+    iconUrl: bookMarkIcon,
+    title: 'Делитесь знаниями',
+    subtitle: 'Публикуйте полезные материалы и помогайте другим расти.',
+  },
+];
 
 export default function Registration() {
   return (
-    <>
-      <div className='flex flex-col gap-y-2 text-center'>
-        <h2 className='text-2xl font-bold tracking-tight text-gray-900 md:text-3xl'>
-          Создать аккаунт
-        </h2>
-        <p className='text-sm text-gray-500 md:text-base'>
-          Присоединяйтесь к нам, чтобы начать работу
-        </p>
+    <div className='bg-dark-0e flex min-h-screen w-full'>
+      {/* Левая колонка с фоновой картинкой */}
+      <div className="min-h-screen w-[40%] bg-[url('/auth-bg.webp')] bg-cover bg-center bg-no-repeat p-10">
+        {/* Контент поверх фона (текст, плашки) */}
+        <div className='mt-37.5 flex max-w-120 flex-col gap-y-10'>
+          <article className='flex flex-col gap-y-10'>
+            <h1 className='text-4xl'>
+              <b>
+                comuni<span className='text-purple-67'>core</span>
+              </b>{' '}
+              - место для настоящего общения
+            </h1>
+            <p className='max-w-100'>
+              Присоединяйтесь к сообществу, делитесь идеями, задавайте вопросы и
+              находите единомышленников.
+            </p>
+          </article>
+
+          <ul className='flex flex-col gap-y-2.5'>
+            {heroCards.map(({ iconUrl, title, subtitle }, index) => (
+              <li
+                key={index}
+                className='bg-dark-0e/70 border-purple-86 flex items-center gap-x-2.5 rounded-[10px] border p-2.5'
+              >
+                <div className='bg-pink-d5/10 flex size-17.5 shrink-0 items-center justify-center rounded-[10px]'>
+                  <Image src={iconUrl} alt='Иконка' />
+                </div>
+                <div className='gap-y-.25 flex flex-col'>
+                  <h2 className='text-[16px]] font-bold'>{title}</h2>
+                  <p className='text-light/70 text-sm font-bold'>{subtitle}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
-      <div className='mt-2 flex flex-col items-center'>
+      {/* Правая колонка с формой регистрации */}
+      <div className='flex w-[60%] items-center justify-center p-12'>
         <RegistrationForm />
       </div>
-
-      <div className='mt-4 border-t border-t-gray-100 pt-6 text-center'>
-        <p className='text-sm text-gray-400'>
-          Уже есть профиль?{' '}
-          <Link
-            href={AppRouter.login}
-            className='font-semibold text-blue-600 transition-colors hover:text-blue-700'
-          >
-            Войти
-          </Link>
-        </p>
-      </div>
-    </>
+    </div>
   );
 }

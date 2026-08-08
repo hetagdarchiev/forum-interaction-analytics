@@ -2,7 +2,7 @@ export { Button } from './Button';
 export { Checkbox } from './Checkbox';
 export { Container, containerClassName } from './Container';
 export { ErrorMessage } from './ErrorMessage';
-export { Field } from './FormField';
+export { FormField } from './FormField';
 export { Input } from './Input';
 export { Label } from './Label';
 export { Loader } from './Loader';

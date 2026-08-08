@@ -1,8 +1,8 @@
 'use client';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { FaRegUser } from 'react-icons/fa';
-import { LuAtSign, LuLock } from 'react-icons/lu';
+import { LuCircleUser, LuLockKeyhole, LuMail } from 'react-icons/lu';
+import Image from 'next/image';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useRegistration } from '../../model/hooks/useRegistration';
@@ -11,8 +11,12 @@ import {
   RegistrationFormTypes,
 } from '../../model/schemas/registration-form.schema';
 
+import githubIcon from '@/shared/assets/icons/github.svg';
+import googleIcon from '@/shared/assets/icons/google.svg';
+import telegramIcon from '@/shared/assets/icons/telegram.svg';
+import vkIcon from '@/shared/assets/icons/vk.svg';
 import { getErrorMessage } from '@/shared/lib/helpers/getErrorMessage';
-import { Button, Checkbox, ErrorMessage, Input, Label } from '@/shared/ui';
+import { Button, Checkbox, ErrorMessage, FormField, Label } from '@/shared/ui';
 
 const defaultValues = {
   name: '',
@@ -20,6 +24,25 @@ const defaultValues = {
   password: '',
   policy: false,
 };
+
+const altAuthButtons = [
+  {
+    label: 'Github',
+    iconUrl: githubIcon,
+  },
+  {
+    label: 'Google',
+    iconUrl: googleIcon,
+  },
+  {
+    label: 'Telegram',
+    iconUrl: telegramIcon,
+  },
+  {
+    label: 'VK ID',
+    iconUrl: vkIcon,
+  },
+];
 
 export function RegistrationForm() {
   const {
@@ -48,53 +71,94 @@ export function RegistrationForm() {
 
   return (
     <form
-      className='flex w-full max-w-125 flex-col gap-y-5'
+      className='bg-dark-0e border-purple-86/40 flex w-full flex-col gap-y-7 rounded-[10px] border px-4 py-8 lg:px-12.5 lg:py-10'
       onSubmit={handleSubmit(onSubmit)}
     >
-      <Label htmlFor='user-name' error={errors.name}>
-        Имя пользователя
-      </Label>
-      <Input
-        id='user-name'
-        isError={errors.name?.message}
-        placeholder='Введите имя пользователя'
-        {...register('name')}
-        icon={<FaRegUser size={20} />}
-      />
-      <Label htmlFor='user-email' error={errors.email}>
-        Email
-      </Label>
-      <Input
-        id='user-email'
-        isError={errors.email?.message}
-        placeholder='Введите ваш email'
-        {...register('email')}
-        icon={<LuAtSign size={20} />}
-      />
-      <Label htmlFor='user-password' error={errors.password}>
-        Пароль
-      </Label>
-      <Input
-        id='user-password'
-        type='password'
-        isError={errors.password?.message}
-        placeholder='Введите ваш пароль'
-        {...register('password')}
-        icon={<LuLock size={20} />}
-      />
-      <Label htmlFor='use-condition-agreement'>
-        <Checkbox id='use-condition-agreement' {...register('policy')} />
-        <span>Соглашаюсь с условиями пользования</span>
-        {errors.policy?.message && (
-          <ErrorMessage error={errors.policy.message} />
-        )}
-      </Label>
+      <section className='mx-auto flex max-w-82 flex-col gap-y-2.5 text-center'>
+        <h2 className='text-4xl font-bold'>Создать аккаунт</h2>
+        <p>
+          Добро пожаловать в <span className='text-purple-86'>Comunicore!</span>
+          🎉 Заполните форму, чтобы начать.
+        </p>
+      </section>
+
+      <section className='flex flex-col gap-y-5'>
+        <FormField
+          id='user-name'
+          label='Имя пользователя'
+          placeholder='Введите имя пользователя'
+          helperText='От 3 до 40 символов. Только буквы, цифры и подчёркивания'
+          icon={<LuCircleUser size={20} />}
+          {...register('name')}
+          error={errors.name}
+        />
+        <FormField
+          id='user-email'
+          label='Email'
+          type='email'
+          placeholder='Введите ваш email'
+          icon={<LuMail size={20} />}
+          {...register('email')}
+          error={errors.email}
+        />
+        <FormField
+          id='user-password'
+          label='Пароль'
+          placeholder='Введите ваш пароль'
+          helperText='Минимум 8 символов, большие буквы и цифры'
+          icon={<LuLockKeyhole size={20} />}
+          {...register('password')}
+          error={errors.password}
+        />
+        <FormField
+          id='user-password-again'
+          label='Повторите пароль'
+          placeholder='Повторите ваш пароль'
+          icon={<LuLockKeyhole size={20} />}
+        />
+        <FormField
+          id='user-date'
+          label='Дата рождения (необязательно)'
+          placeholder='ДД.ММ.ГГГГ'
+        />
+      </section>
+
+      <section>
+        <Label htmlFor='use-condition-agreement'>
+          <Checkbox id='use-condition-agreement' {...register('policy')} />
+          <span>Соглашаюсь с условиями пользования</span>
+          {errors.policy?.message && (
+            <ErrorMessage error={errors.policy.message} />
+          )}
+        </Label>
+      </section>
+
+      {error && <ErrorMessage error={getErrorMessage(error)} />}
 
       <Button type='submit' disabled={isPending} className='w-full'>
         {isPending ? 'Загрузка...' : 'Зарегистрироваться'}
       </Button>
 
-      {error && <ErrorMessage error={getErrorMessage(error)} />}
+      {/* Divider */}
+      <div className='flex items-center gap-3'>
+        <div className='border-gray-9e/30 flex-1 border-t' />
+        <span className='text-gray-9e text-sm'>или продолжите с</span>
+        <div className='border-gray-9e/30 flex-1 border-t' />
+      </div>
+
+      {/* Social Auth Buttons */}
+      <section className='flex flex-wrap items-center justify-center gap-3'>
+        {altAuthButtons.map(({ iconUrl, label }) => (
+          <Button
+            key={label}
+            color='ghost'
+            className='flex items-center justify-center gap-2'
+          >
+            <Image src={iconUrl} alt={label} width={24} />
+            {label}
+          </Button>
+        ))}
+      </section>
     </form>
   );
 }

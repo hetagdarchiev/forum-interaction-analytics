@@ -29,11 +29,11 @@ const heroCards = [
 
 export default function Registration() {
   return (
-    <div className='bg-dark-0e flex min-h-screen w-full'>
+    <div className='bg-dark-0e flex min-h-screen w-full flex-col-reverse lg:flex-row'>
       {/* Левая колонка с фоновой картинкой */}
-      <div className="min-h-screen w-[40%] bg-[url('/auth-bg.webp')] bg-cover bg-center bg-no-repeat p-10">
+      <div className="min-h-screen bg-[url('/auth-bg.webp')] bg-cover bg-center bg-no-repeat p-3 sm:p-6 lg:w-[40%] lg:p-10">
         {/* Контент поверх фона (текст, плашки) */}
-        <div className='mt-37.5 flex max-w-120 flex-col gap-y-10'>
+        <div className='mt-10 flex max-w-120 flex-col gap-y-10 sm:mt-20 lg:mt-37.5'>
           <article className='flex flex-col gap-y-10'>
             <h1 className='text-4xl'>
               <b>
@@ -67,7 +67,7 @@ export default function Registration() {
       </div>
 
       {/* Правая колонка с формой регистрации */}
-      <div className='flex w-[60%] items-center justify-center p-12'>
+      <div className='flex items-center justify-center p-3 lg:w-[60%] lg:p-10'>
         <RegistrationForm />
       </div>
     </div>

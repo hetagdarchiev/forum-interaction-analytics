@@ -3,6 +3,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { LuCircleUser, LuLockKeyhole, LuMail } from 'react-icons/lu';
 import Image from 'next/image';
+import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useRegistration } from '../../model/hooks/useRegistration';
@@ -15,6 +16,7 @@ import githubIcon from '@/shared/assets/icons/github.svg';
 import googleIcon from '@/shared/assets/icons/google.svg';
 import telegramIcon from '@/shared/assets/icons/telegram.svg';
 import vkIcon from '@/shared/assets/icons/vk.svg';
+import { AppRouter } from '@/shared/config/app-router';
 import { getErrorMessage } from '@/shared/lib/helpers/getErrorMessage';
 import { Button, Checkbox, ErrorMessage, FormField, Label } from '@/shared/ui';
 
@@ -124,13 +126,29 @@ export function RegistrationForm() {
       </section>
 
       <section>
-        <Label htmlFor='use-condition-agreement'>
-          <Checkbox id='use-condition-agreement' {...register('policy')} />
-          <span>Соглашаюсь с условиями пользования</span>
-          {errors.policy?.message && (
-            <ErrorMessage error={errors.policy.message} />
-          )}
+        <Label
+          htmlFor='use-condition-agreement'
+          className='flex items-center gap-x-2.5'
+        >
+          <Checkbox
+            id='use-condition-agreement'
+            size={24}
+            {...register('policy')}
+          />
+          <p className='text-[12px] font-normal'>
+            Я принимаю{' '}
+            <Link href={AppRouter.rules.root} className='text-purple-86'>
+              Пользовательское соглашение
+            </Link>
+            <br />и{' '}
+            <Link href={AppRouter.rules.community} className='text-purple-86'>
+              Политику конфиденциальности
+            </Link>
+          </p>
         </Label>
+        {errors.policy?.message && (
+          <ErrorMessage error={errors.policy.message} />
+        )}
       </section>
 
       {error && <ErrorMessage error={getErrorMessage(error)} />}

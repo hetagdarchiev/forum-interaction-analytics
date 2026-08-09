@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import Image from 'next/image';
 
 import { AuthForms } from '@/widgets/auth-forms';
@@ -63,7 +64,9 @@ export default function AuthPage() {
       </section>
 
       <section className='flex items-center justify-center p-3 lg:w-[60%] lg:p-10'>
-        <AuthForms />
+        <Suspense fallback={<div className='text-white'>Загрузка...</div>}>
+          <AuthForms />
+        </Suspense>
       </section>
     </div>
   );

@@ -6,10 +6,13 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   isError?: string;
   icon?: ReactNode;
+  actionIcon?: ReactNode;
+  onActionIconClick?: () => void;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  const { className, isError, icon, ...rest } = props;
+  const { className, isError, icon, actionIcon, onActionIconClick, ...rest } =
+    props;
 
   const commonClassName = cn(
     'text-light placeholder:text-light border-gray-9e/10 min-h-10 rounded-[10px] border bg-transparent px-2.5 py-2.5 text-[16px] outline-none',

@@ -29,17 +29,35 @@ export const useLogin = () => {
         },
         body: JSON.stringify(loginData.body),
       });
-      const userData = await response.json();
-      return userData;
+
+      const contentType = response.headers.get('content-type') ?? '';
+      const responseData = contentType.includes('application/json')
+        ? await response.json().catch(() => null)
+        : await response.text().catch(() => null);
+
+      if (!response.ok) {
+        const errorMessage =
+          typeof responseData === 'string'
+            ? responseData
+            : responseData?.message ||
+              responseData?.error ||
+              'Не удалось войти';
+
+        throw new Error(errorMessage);
+      }
+
+      return responseData;
     },
     onMutate: () => {
       setStatus('loading');
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       setStatus('authenticated');
 
+      await queryClient.invalidateQueries({
+        queryKey: userMeOptions().queryKey,
+      });
       router.push(`${AppRouter.profile.root}`);
-      queryClient.invalidateQueries({ queryKey: userMeOptions().queryKey });
     },
     onError: () => {
       setStatus('anonymous');

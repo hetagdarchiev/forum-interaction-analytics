@@ -1,5 +1,7 @@
 import * as z from 'zod';
 
+import { passwordSchema } from '@/shared/lib/schemas/password.schema';
+
 export const registrationFormSchema = z
   .object({
     name: z
@@ -13,15 +15,7 @@ export const registrationFormSchema = z
       .toLowerCase()
       .min(1, { message: 'Введите почту' })
       .email({ message: 'Неверный формат почты' }),
-    password: z
-      .string()
-      .min(8, { message: 'Пароль должен быть не менее 8 символов' })
-      .regex(/[a-z]/, {
-        message: 'Пароль должен содержать хотя бы одну строчную букву',
-      })
-      .regex(/[0-9]/, {
-        message: 'Пароль должен содержать хотя бы одну цифру',
-      }),
+    password: passwordSchema,
     confirmPassword: z.string().min(1, { message: 'Подтвердите пароль' }),
     policy: z.boolean().refine((val) => val, {
       message: 'Условия должны быть приняты',

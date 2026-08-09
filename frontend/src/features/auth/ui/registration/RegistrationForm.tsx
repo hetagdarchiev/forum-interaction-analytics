@@ -19,6 +19,7 @@ const defaultValues = {
   name: '',
   email: '',
   password: '',
+  confirmPassword: '',
   policy: false,
 };
 
@@ -37,8 +38,11 @@ export function RegistrationForm() {
   const { mutate: registrationMutate, error, isPending } = useRegistration();
 
   const onSubmit: SubmitHandler<RegistrationFormTypes> = (data) => {
+    const { confirmPassword: _, ...payload } = data; // ConfirmPassword не будет отправляться на сервер в payload
+    void _; // Чтобы линтер не ругался на неиспользумую переменную.
+
     registrationMutate(
-      { body: data },
+      { body: payload },
       {
         onSuccess: () => {
           reset(defaultValues);
@@ -71,6 +75,7 @@ export function RegistrationForm() {
         <FormField
           id='user-password'
           label='Пароль'
+          type='password'
           placeholder='Введите ваш пароль'
           helperText='Минимум 8 символов, большие буквы и цифры'
           icon={<LuLockKeyhole size={20} />}
@@ -80,8 +85,11 @@ export function RegistrationForm() {
         <FormField
           id='user-password-again'
           label='Повторите пароль'
+          type='password'
           placeholder='Повторите ваш пароль'
           icon={<LuLockKeyhole size={20} />}
+          {...register('confirmPassword')}
+          error={errors.confirmPassword}
         />
         <FormField
           id='user-date'

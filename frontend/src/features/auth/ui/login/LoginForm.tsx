@@ -84,7 +84,10 @@ export function LoginForm() {
       </section>
 
       {serverError && (
-        <ErrorMessage error={getErrorMessage(serverError.message)} />
+        <ErrorMessage
+          className='text-center'
+          error={getErrorMessage(serverError.message)}
+        />
       )}
 
       <Button type='submit' disabled={isPending} className='w-full'>

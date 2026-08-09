@@ -127,7 +127,9 @@ export function RegistrationForm() {
         )}
       </section>
 
-      {error && <ErrorMessage error={getErrorMessage(error)} />}
+      {error && (
+        <ErrorMessage error={getErrorMessage(error)} className='text-center' />
+      )}
 
       <Button type='submit' disabled={isPending} className='w-full'>
         {isPending ? 'Загрузка...' : 'Зарегистрироваться'}

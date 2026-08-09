@@ -26,7 +26,7 @@ export default function Profile() {
   const userData = user?.user;
 
   if (!userData) {
-    return null; // Либо аккуратный скелетон, чтобы не дергать экран
+    return null;
   }
 
   return (

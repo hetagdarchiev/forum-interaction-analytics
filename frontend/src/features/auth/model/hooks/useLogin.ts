@@ -36,12 +36,15 @@ export const useLogin = () => {
         : await response.text().catch(() => null);
 
       if (!response.ok) {
-        const errorMessage =
+        const rawMessage =
           typeof responseData === 'string'
             ? responseData
-            : responseData?.message ||
-              responseData?.error ||
-              'Не удалось войти';
+            : responseData?.message || responseData?.error;
+
+        const errorMessage =
+          rawMessage === 'Unauthorized'
+            ? 'Неверный логин или пароль'
+            : rawMessage || 'Не удалось войти';
 
         throw new Error(errorMessage);
       }

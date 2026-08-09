@@ -1,7 +1,15 @@
 'use client';
 
+import { useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { LuCircleUser, LuLockKeyhole, LuMail } from 'react-icons/lu';
+import {
+  LuCalendar,
+  LuCircleUser,
+  LuEye,
+  LuEyeOff,
+  LuLockKeyhole,
+  LuMail,
+} from 'react-icons/lu';
 import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -21,9 +29,13 @@ const defaultValues = {
   password: '',
   confirmPassword: '',
   policy: false,
+  birthDate: '',
 };
 
 export function RegistrationForm() {
+  // Стейты для переключения видимости паролей
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -34,6 +46,9 @@ export function RegistrationForm() {
     mode: 'onSubmit',
     defaultValues,
   });
+
+  const dateInputRef = useRef<HTMLInputElement | null>(null);
+  const { ref: birthDateRef, ...birthDateRest } = register('birthDate');
 
   const { mutate: registrationMutate, error, isPending } = useRegistration();
 
@@ -59,7 +74,7 @@ export function RegistrationForm() {
           label='Имя пользователя'
           placeholder='Введите имя пользователя'
           helperText='От 3 до 40 символов. Только буквы, цифры и подчёркивания'
-          icon={<LuCircleUser size={20} />}
+          icon={<LuCircleUser />}
           {...register('name')}
           error={errors.name}
         />
@@ -68,26 +83,30 @@ export function RegistrationForm() {
           label='Email'
           type='email'
           placeholder='Введите ваш email'
-          icon={<LuMail size={20} />}
+          icon={<LuMail />}
           {...register('email')}
           error={errors.email}
         />
         <FormField
           id='user-password'
           label='Пароль'
-          type='password'
+          type={showPassword ? 'text' : 'password'}
           placeholder='Введите ваш пароль'
           helperText='Минимум 8 символов, большие буквы и цифры'
-          icon={<LuLockKeyhole size={20} />}
+          icon={<LuLockKeyhole />}
+          actionIcon={showPassword ? <LuEyeOff /> : <LuEye />}
+          onActionIconClick={() => setShowPassword((prev) => !prev)}
           {...register('password')}
           error={errors.password}
         />
         <FormField
           id='user-password-again'
           label='Повторите пароль'
-          type='password'
+          type={showConfirmPassword ? 'text' : 'password'}
           placeholder='Повторите ваш пароль'
-          icon={<LuLockKeyhole size={20} />}
+          icon={<LuLockKeyhole />}
+          actionIcon={showConfirmPassword ? <LuEyeOff /> : <LuEye />}
+          onActionIconClick={() => setShowConfirmPassword((prev) => !prev)}
           {...register('confirmPassword')}
           error={errors.confirmPassword}
         />
@@ -95,10 +114,20 @@ export function RegistrationForm() {
           id='user-date'
           label='Дата рождения (необязательно)'
           placeholder='ДД.ММ.ГГГГ'
+          type='date'
+          actionIcon={<LuCalendar />}
+          ref={(event) => {
+            birthDateRef(event);
+            dateInputRef.current = event;
+          }}
+          onActionIconClick={() => {
+            dateInputRef.current?.showPicker?.();
+          }}
+          {...birthDateRest}
         />
       </section>
 
-      <section>
+      <section className='flex flex-col gap-y-2'>
         <Label
           htmlFor='use-condition-agreement'
           className='flex items-center gap-x-2.5'

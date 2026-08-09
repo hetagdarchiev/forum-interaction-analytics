@@ -8,22 +8,37 @@ import { Input } from './Input';
 import { Label } from './Label';
 
 interface FormFieldProps extends InputHTMLAttributes<HTMLInputElement> {
-  label?: ReactNode;
+  label: ReactNode;
   error?: FieldError;
   icon?: ReactNode;
   helperText?: ReactNode;
-  className?: 'string';
+  actionIcon?: ReactNode;
+  onActionIconClick?: () => void;
 }
 
 export const FormField = forwardRef<HTMLInputElement, FormFieldProps>(
-  ({ className, label, error, icon, helperText, id, ...inputProps }, ref) => (
+  (
+    {
+      className,
+      label,
+      error,
+      icon,
+      helperText,
+      actionIcon,
+      onActionIconClick,
+      id,
+      ...inputProps
+    },
+    ref,
+  ) => (
     <div className={cn('flex flex-col gap-y-2', className)}>
       {label && <Label htmlFor={id}>{label}</Label>}
       <Input
         ref={ref}
         id={id}
         icon={icon}
-        isError={error?.message}
+        actionIcon={actionIcon}
+        onActionIconClick={onActionIconClick}
         {...inputProps}
       />
       {helperText && !error && (

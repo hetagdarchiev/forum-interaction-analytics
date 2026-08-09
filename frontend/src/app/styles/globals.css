@@ -109,6 +109,11 @@
     caret-color: var(--color-light);
   }
 
+  input[type='date']::-webkit-calendar-picker-indicator {
+    background: transparent;
+    color: transparent;
+  }
+
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }

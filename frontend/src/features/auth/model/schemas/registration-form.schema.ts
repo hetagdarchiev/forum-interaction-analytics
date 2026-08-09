@@ -17,6 +17,7 @@ export const registrationFormSchema = z
       .email({ message: 'Неверный формат почты' }),
     password: passwordSchema,
     confirmPassword: z.string().min(1, { message: 'Подтвердите пароль' }),
+    birthDate: z.string().optional().or(z.literal('')),
     policy: z.boolean().refine((val) => val, {
       message: 'Условия должны быть приняты',
     }),

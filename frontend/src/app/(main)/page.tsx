@@ -11,8 +11,9 @@ import { RiGraduationCapFill, RiLightbulbFill } from 'react-icons/ri';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import HeroSection from './HeroCards';
+
 import ctaImage from '@/shared/assets/images/cta-bg.png';
-import heroImage from '@/shared/assets/images/hero.png';
 import logoLetterImage from '@/shared/assets/images/logo-letter.png';
 import { AppRouter } from '@/shared/config/app-router';
 import { cn } from '@/shared/lib/classNames';
@@ -251,13 +252,7 @@ export default function Home() {
             </Button>
           </div>
 
-          <div className='relative hidden lg:block'>
-            <Image
-              src={heroImage}
-              alt='Comunicore — платформа для общения'
-              priority
-            />
-          </div>
+          <HeroSection className='hidden lg:flex' />
         </div>
       </section>
 

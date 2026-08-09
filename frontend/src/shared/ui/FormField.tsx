@@ -1,6 +1,8 @@
 import { forwardRef, InputHTMLAttributes, ReactNode } from 'react';
 import { FieldError } from 'react-hook-form';
 
+import { cn } from '../lib/classNames';
+
 import { ErrorMessage } from './ErrorMessage';
 import { Input } from './Input';
 import { Label } from './Label';
@@ -10,11 +12,12 @@ interface FormFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: FieldError;
   icon?: ReactNode;
   helperText?: ReactNode;
+  className?: 'string';
 }
 
 export const FormField = forwardRef<HTMLInputElement, FormFieldProps>(
-  ({ label, error, icon, helperText, id, ...inputProps }, ref) => (
-    <div className='flex flex-col gap-y-2'>
+  ({ className, label, error, icon, helperText, id, ...inputProps }, ref) => (
+    <div className={cn('flex flex-col gap-y-2', className)}>
       {label && <Label htmlFor={id}>{label}</Label>}
       <Input
         ref={ref}

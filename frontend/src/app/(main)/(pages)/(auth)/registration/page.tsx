@@ -1,7 +1,6 @@
 import Image from 'next/image';
 
-// import Link from 'next/link';
-import { RegistrationForm } from '@/features/auth';
+import { AuthForms } from '@/widgets/auth-forms';
 
 import bookMarkIcon from '@/shared/assets/icons/book-mark-purple.svg';
 import messageIcon from '@/shared/assets/icons/message-purple.svg';
@@ -30,11 +29,11 @@ const heroCards = [
 export default function Registration() {
   return (
     <div className='bg-dark-0e flex min-h-screen w-full flex-col-reverse lg:flex-row'>
-      {/* Левая колонка с фоновой картинкой */}
-      <div className="min-h-screen bg-[url('/auth-bg.webp')] bg-cover bg-center bg-no-repeat p-3 sm:p-6 lg:w-[40%] lg:p-10">
-        {/* Контент поверх фона (текст, плашки) */}
+      {/* Левая секция с фоном */}
+      <section className="min-h-screen bg-[url('/auth-bg.webp')] bg-cover bg-center bg-no-repeat p-3 sm:p-6 lg:w-[40%] lg:p-10">
+        {/* Контент поверх фона */}
         <div className='mt-10 flex max-w-120 flex-col gap-y-10 sm:mt-20 lg:mt-37.5'>
-          <article className='flex flex-col gap-y-10'>
+          <header className='flex flex-col gap-y-10'>
             <h1 className='text-4xl'>
               <b>
                 comuni<span className='text-purple-67'>core</span>
@@ -45,7 +44,7 @@ export default function Registration() {
               Присоединяйтесь к сообществу, делитесь идеями, задавайте вопросы и
               находите единомышленников.
             </p>
-          </article>
+          </header>
 
           <ul className='flex flex-col gap-y-2.5'>
             {heroCards.map(({ iconUrl, title, subtitle }, index) => (
@@ -64,12 +63,12 @@ export default function Registration() {
             ))}
           </ul>
         </div>
-      </div>
+      </section>
 
-      {/* Правая колонка с формой регистрации */}
-      <div className='flex items-center justify-center p-3 lg:w-[60%] lg:p-10'>
-        <RegistrationForm />
-      </div>
+      {/* Правая секция с формой авторизации */}
+      <section className='flex items-center justify-center p-3 lg:w-[60%] lg:p-10'>
+        <AuthForms />
+      </section>
     </div>
   );
 }

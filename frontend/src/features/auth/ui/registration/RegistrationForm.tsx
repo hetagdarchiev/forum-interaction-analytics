@@ -2,7 +2,6 @@
 
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { LuCircleUser, LuLockKeyhole, LuMail } from 'react-icons/lu';
-import Image from 'next/image';
 import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -12,10 +11,6 @@ import {
   RegistrationFormTypes,
 } from '../../model/schemas/registration-form.schema';
 
-import githubIcon from '@/shared/assets/icons/github.svg';
-import googleIcon from '@/shared/assets/icons/google.svg';
-import telegramIcon from '@/shared/assets/icons/telegram.svg';
-import vkIcon from '@/shared/assets/icons/vk.svg';
 import { AppRouter } from '@/shared/config/app-router';
 import { getErrorMessage } from '@/shared/lib/helpers/getErrorMessage';
 import { Button, Checkbox, ErrorMessage, FormField, Label } from '@/shared/ui';
@@ -26,25 +21,6 @@ const defaultValues = {
   password: '',
   policy: false,
 };
-
-const altAuthButtons = [
-  {
-    label: 'Github',
-    iconUrl: githubIcon,
-  },
-  {
-    label: 'Google',
-    iconUrl: googleIcon,
-  },
-  {
-    label: 'Telegram',
-    iconUrl: telegramIcon,
-  },
-  {
-    label: 'VK ID',
-    iconUrl: vkIcon,
-  },
-];
 
 export function RegistrationForm() {
   const {
@@ -72,18 +48,7 @@ export function RegistrationForm() {
   };
 
   return (
-    <form
-      className='bg-dark-0e border-purple-86/40 flex w-full flex-col gap-y-7 rounded-[10px] border px-4 py-8 lg:px-12.5 lg:py-10'
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <section className='mx-auto flex max-w-82 flex-col gap-y-2.5 text-center'>
-        <h2 className='text-4xl font-bold'>Создать аккаунт</h2>
-        <p>
-          Добро пожаловать в <span className='text-purple-86'>Comunicore!</span>
-          🎉 Заполните форму, чтобы начать.
-        </p>
-      </section>
-
+    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-y-7'>
       <section className='flex flex-col gap-y-5'>
         <FormField
           id='user-name'
@@ -159,27 +124,6 @@ export function RegistrationForm() {
       <Button type='submit' disabled={isPending} className='w-full'>
         {isPending ? 'Загрузка...' : 'Зарегистрироваться'}
       </Button>
-
-      {/* Divider */}
-      <div className='flex items-center gap-3'>
-        <div className='border-gray-9e/30 flex-1 border-t' />
-        <span className='text-gray-9e text-sm'>или продолжите с</span>
-        <div className='border-gray-9e/30 flex-1 border-t' />
-      </div>
-
-      {/* Social Auth Buttons */}
-      <section className='flex flex-wrap items-center justify-center gap-3'>
-        {altAuthButtons.map(({ iconUrl, label }) => (
-          <Button
-            key={label}
-            color='ghost'
-            className='flex items-center justify-center gap-2'
-          >
-            <Image src={iconUrl} alt={label} width={24} />
-            {label}
-          </Button>
-        ))}
-      </section>
     </form>
   );
 }

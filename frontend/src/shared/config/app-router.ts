@@ -47,8 +47,15 @@ export const AppRouter = {
   },
   faq: '/faq',
   favorites: '/favorites',
-  registration: '/registration',
-  login: '/login',
+  auth: {
+    root: '/auth',
+    get login() {
+      return `${this.root}?mode=login`;
+    },
+    get registration() {
+      return `${this.root}?mode=register`;
+    },
+  },
   editor: '/editor',
 
   rules: {

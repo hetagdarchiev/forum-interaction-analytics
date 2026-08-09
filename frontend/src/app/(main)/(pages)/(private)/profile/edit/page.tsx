@@ -76,7 +76,7 @@ export default function ProfileEdit() {
 
   useEffect(() => {
     if (!isLoading && !user) {
-      router.push(AppRouter.login);
+      router.push(AppRouter.auth.login);
     }
   }, [user, isLoading, router]);
 

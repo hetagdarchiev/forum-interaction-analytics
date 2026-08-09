@@ -242,7 +242,7 @@ export default function Home() {
             </p>
 
             <Button
-              href={AppRouter.registration}
+              href={AppRouter.auth.registration}
               size='sm'
               className='group w-fit gap-x-3'
             >
@@ -594,7 +594,11 @@ export default function Home() {
             <p className='text-light mb-10 text-base'>
               Присоединяйся к нашему сообществу и начни общаться уже сегодня!
             </p>
-            <Button href={AppRouter.registration} size='md' className='gap-x-3'>
+            <Button
+              href={AppRouter.auth.registration}
+              size='md'
+              className='gap-x-3'
+            >
               Присоедениться
               <BsArrowRight size={20} aria-hidden='true' />
             </Button>

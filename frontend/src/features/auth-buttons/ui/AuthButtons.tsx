@@ -14,7 +14,7 @@ export function AuthButtons({ className }: Props) {
     <div className={cn('flex gap-x-3', className)}>
       <Button
         onClick={() => setIsOpen(false)}
-        href={AppRouter.login}
+        href={AppRouter.auth.login}
         color='ghost'
         size='sm'
         className='bg-dark-1b'
@@ -23,7 +23,7 @@ export function AuthButtons({ className }: Props) {
       </Button>
       <Button
         onClick={() => setIsOpen(false)}
-        href={AppRouter.registration}
+        href={AppRouter.auth.registration}
         size='sm'
       >
         Регистрация

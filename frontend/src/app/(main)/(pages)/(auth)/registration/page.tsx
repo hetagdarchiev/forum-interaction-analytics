@@ -5,7 +5,6 @@ import { AuthForms } from '@/widgets/auth-forms';
 import bookMarkIcon from '@/shared/assets/icons/book-mark-purple.svg';
 import messageIcon from '@/shared/assets/icons/message-purple.svg';
 import peopleIcon from '@/shared/assets/icons/people-purple.svg';
-// import { AppRouter } from '@/shared/config/app-router';
 
 const heroCards = [
   {
@@ -29,9 +28,7 @@ const heroCards = [
 export default function Registration() {
   return (
     <div className='bg-dark-0e flex min-h-screen w-full flex-col-reverse lg:flex-row'>
-      {/* Левая секция с фоном */}
       <section className="min-h-screen bg-[url('/auth-bg.webp')] bg-cover bg-center bg-no-repeat p-3 sm:p-6 lg:w-[40%] lg:p-10">
-        {/* Контент поверх фона */}
         <div className='mt-10 flex max-w-120 flex-col gap-y-10 sm:mt-20 lg:mt-37.5'>
           <header className='flex flex-col gap-y-10'>
             <h1 className='text-4xl'>
@@ -65,7 +62,6 @@ export default function Registration() {
         </div>
       </section>
 
-      {/* Правая секция с формой авторизации */}
       <section className='flex items-center justify-center p-3 lg:w-[60%] lg:p-10'>
         <AuthForms />
       </section>

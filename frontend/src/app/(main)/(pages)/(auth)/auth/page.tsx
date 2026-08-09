@@ -25,7 +25,7 @@ const heroCards = [
   },
 ];
 
-export default function Login() {
+export default function AuthPage() {
   return (
     <div className='bg-dark-0e flex min-h-screen w-full flex-col-reverse lg:flex-row'>
       <section className="min-h-screen bg-[url('/auth-bg.webp')] bg-cover bg-center bg-no-repeat p-3 sm:p-6 lg:w-[40%] lg:p-10">

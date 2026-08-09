@@ -128,7 +128,6 @@ export default function ProfileEdit() {
             <Input
               id='profile-name'
               className='bg-light-fc text-gray-80 px-4 py-2'
-              isError={errors.name?.message}
               placeholder={user.name}
               {...register('name')}
             />
@@ -143,7 +142,6 @@ export default function ProfileEdit() {
             <Input
               id='profile-email'
               className='bg-light-fc text-gray-80 px-4 py-2'
-              isError={errors.email?.message}
               placeholder={user.email || 'Email'}
               {...register('email')}
             />
@@ -159,7 +157,6 @@ export default function ProfileEdit() {
               id='profile-password'
               type='password'
               className='bg-light-fc text-gray-80 px-4 py-2'
-              isError={errors.password?.message}
               placeholder='Новый пароль'
               autoComplete='new-password'
               {...register('password')}

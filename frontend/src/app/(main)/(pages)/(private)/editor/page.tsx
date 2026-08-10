@@ -10,6 +10,8 @@ import {
   useAuthStore,
 } from '@/entities/session';
 
+import { AppRouter } from '@/shared/config/app-router';
+
 export default function EditorPage() {
   const isAuthenticated = useAuthStore(selectIsAuthenticated);
   const isLoading = useAuthStore(selectStatus) === 'loading';
@@ -33,13 +35,13 @@ export default function EditorPage() {
         </p>
         <div className='flex gap-3'>
           <Link
-            href='/login'
+            href={AppRouter.auth.login}
             className='bg-blue-16 hover:bg-blue-20 inline-flex w-fit items-center justify-center rounded-md px-5 py-3 text-center font-bold text-white duration-200'
           >
             Войти
           </Link>
           <Link
-            href='/registration'
+            href={AppRouter.auth.registration}
             className='bg-blue-16 hover:bg-blue-20 inline-flex w-fit items-center justify-center rounded-md px-5 py-3 text-center font-bold text-white duration-200'
           >
             Регистрация

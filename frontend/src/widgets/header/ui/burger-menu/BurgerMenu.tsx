@@ -6,8 +6,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { navLinks } from '../../model/navLinks';
+import { AuthButtons } from '../auth-buttons';
 
-import { AuthButtons } from '@/features/auth-buttons';
 import { ProfileActions } from '@/features/profile-actions';
 
 import {

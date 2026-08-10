@@ -8,9 +8,9 @@ import { usePathname } from 'next/navigation';
 
 import { navLinks } from '../model/navLinks';
 
-import { Burger } from './burger/Burger';
+import { AuthButtons } from './auth-buttons';
+import { Burger } from './burger';
 
-import { AuthButtons } from '@/features/auth-buttons';
 import { ProfileActions } from '@/features/profile-actions';
 
 import { selectIsAuthenticated, useAuthStore } from '@/entities/session';

@@ -11,7 +11,7 @@ import { cn } from '../lib/classNames';
 
 type ButtonColor = 'purple' | 'ghost' | 'bordered' | 'transparent';
 type HoverStyle = 'purple' | 'pink' | 'bordered' | 'transparent' | 'ghost';
-type ButtonSize = 'min-sm' | 'sm' | 'md' | 'lg' | 'xl' | 'square';
+type ButtonSize = 'min-sm' | 'sm' | 'md' | 'max-lg' | 'lg' | 'xl' | 'square';
 
 type ButtonProps = Partial<
   AnchorHTMLAttributes<HTMLAnchorElement> &
@@ -49,6 +49,7 @@ const sizeStyles: Record<ButtonSize, string> = {
   sm: 'px-[20px] py-[10px] text-[14px]',
   md: 'px-[20px] py-[14px] text-[16px]',
   lg: 'px-[15px] py-[15px] text-[18px]',
+  'max-lg': 'px-[53px] py-[20px] text-[18px] rounded-[5px]',
   xl: 'w-full p-[20px] text-[18px] rounded-[10px]',
 };
 

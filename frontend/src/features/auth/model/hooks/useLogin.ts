@@ -3,8 +3,6 @@
 import { useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { LoginFormTypes } from '../schemas/login-form.schema';
-
 import { useAuthStore } from '@/entities/session';
 
 import {
@@ -20,18 +18,7 @@ export const useLogin = () => {
   const setStatus = useAuthStore((state) => state.actions.setStatus);
 
   const loginMutation = useMutation({
-    ...authLoginMutation().mutationKey,
-    mutationFn: async (loginData: { body: LoginFormTypes }) => {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(loginData.body),
-      });
-      const userData = await response.json();
-      return userData;
-    },
+    ...authLoginMutation(),
     onMutate: () => {
       setStatus('loading');
     },

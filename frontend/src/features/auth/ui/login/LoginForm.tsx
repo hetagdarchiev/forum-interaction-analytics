@@ -87,9 +87,7 @@ export function LoginForm() {
           Забыл пароль
         </Link>
 
-        {serverError && (
-          <ErrorMessage error={getErrorMessage(serverError.message)} />
-        )}
+        {serverError && <ErrorMessage error={getErrorMessage(serverError)} />}
       </div>
     </form>
   );

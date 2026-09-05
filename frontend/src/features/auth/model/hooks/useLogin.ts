@@ -22,11 +22,13 @@ export const useLogin = () => {
     onMutate: () => {
       setStatus('loading');
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       setStatus('authenticated');
 
+      await queryClient.invalidateQueries({
+        queryKey: userMeOptions().queryKey,
+      });
       router.push(`${AppRouter.profile.root}`);
-      queryClient.invalidateQueries({ queryKey: userMeOptions().queryKey });
     },
     onError: () => {
       setStatus('anonymous');

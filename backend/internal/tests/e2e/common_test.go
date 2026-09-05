@@ -43,7 +43,7 @@ func postgresStart(ctx context.Context) (stop func()) {
 		log.Printf("failed to get mapped port: %s", err)
 		return
 	}
-	globalConfig.DbPort = port.Int()
+	globalConfig.DbPort = int(port.Num())
 	log.Printf("PostgreSQL container is mapped to port: %d", globalConfig.DbPort)
 
 	return func() {

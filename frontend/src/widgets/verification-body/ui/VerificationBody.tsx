@@ -15,7 +15,7 @@ export const VerificationBody = () => {
   const router = useRouter();
 
   if (!email) {
-    router.push(AppRouter.registration);
+    router.push(AppRouter.auth.registration);
     return;
   }
 

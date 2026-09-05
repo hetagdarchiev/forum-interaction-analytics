@@ -1,16 +1,21 @@
 import { z } from 'zod';
 
-import { passwordSchema } from '@/shared/lib/schemas/password.schema';
+const emailSchema = z.email('Введите корректный email').toLowerCase();
+
+const usernameSchema = z
+  .string()
+  .trim()
+  .min(3, 'Имя пользователя должно быть от 3 символов')
+  .max(255, 'Слишком длинное значение')
+  .toLowerCase();
 
 export const loginFormSchema = z.object({
-  login: z
-    .string()
-    .trim()
-    .min(1, 'Введите почту')
-    .email({ message: 'Неверный формат почты' })
-    .toLowerCase()
-    .max(255, 'Email слишком длинный'),
-  password: passwordSchema,
+  login: z.union([emailSchema, usernameSchema], {
+    error: () => ({
+      message: 'Введите имя пользователя или корректный email',
+    }),
+  }),
+  password: z.string().trim().min(1, 'Введите пароль'),
 });
 
 export type LoginFormTypes = z.infer<typeof loginFormSchema>;

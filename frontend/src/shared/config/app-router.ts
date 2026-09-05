@@ -25,6 +25,10 @@ export const AppRouter = {
   support: '/support',
   award: '/award',
   notification: '/notifications',
+  blog: {
+    root: '/blog',
+  },
+  participants: '/participants',
   profile: {
     root: '/profile',
     get edit() {
@@ -48,13 +52,32 @@ export const AppRouter = {
   },
   faq: '/faq',
   favorites: '/favorites',
-  registration: '/registration',
-  login: '/login',
+  auth: {
+    root: '/auth',
+    get login() {
+      return `${this.root}?mode=login`;
+    },
+    get registration() {
+      return `${this.root}?mode=register`;
+    },
+  },
+  editor: '/editor',
 
   rules: {
     root: '/rules',
     get community() {
       return `${this.root}/community`;
+    },
+  },
+
+  // Политика
+  policy: {
+    root: '/policy',
+    get privacy() {
+      return `${this.root}/privacy`; // Конфиденциальность
+    },
+    get userAgreement() {
+      return `${this.root}/user-agreement`; // Пользовательское соглашение
     },
   },
 

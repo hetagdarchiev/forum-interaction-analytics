@@ -1,7 +1,7 @@
 'use client';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { LuAtSign, LuLock } from 'react-icons/lu';
+import { LuUser } from 'react-icons/lu';
 import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -13,7 +13,14 @@ import {
 
 import { AppRouter } from '@/shared/config/app-router';
 import { getErrorMessage } from '@/shared/lib/helpers/getErrorMessage';
-import { Button, ErrorMessage, Input, Label } from '@/shared/ui';
+import {
+  Button,
+  Checkbox,
+  ErrorMessage,
+  FormField,
+  Label,
+  PasswordInput,
+} from '@/shared/ui';
 
 const defaultValues = {
   login: '',
@@ -47,48 +54,52 @@ export function LoginForm() {
   };
 
   return (
-    <form
-      className='flex w-full max-w-125 flex-col items-center gap-y-5 *:[div]:w-full'
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <Label htmlFor='user-login-email' error={errors.login}>
-        <LuAtSign size={24} aria-hidden={true} role='img' />
-        <Input
+    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-y-7'>
+      <section className='flex flex-col gap-y-5'>
+        <FormField
           id='user-login-email'
+          label='Email или имя пользователя'
+          placeholder='Введите имя пользователя'
+          icon={<LuUser size={20} />}
           {...register('login')}
-          type='text'
-          isError={errors.login?.message}
-          placeholder='Почта'
+          error={errors.login}
           disabled={isPending}
         />
-      </Label>
-
-      <Label htmlFor='user-login-password' error={errors.password}>
-        <LuLock size={24} aria-hidden={true} role='img' />
-        <Input
+        <PasswordInput
           id='user-login-password'
+          label='Пароль'
+          placeholder='Введите ваш пароль'
           {...register('password')}
-          type='password'
-          placeholder='Пароль'
-          isError={errors.password?.message}
+          error={errors.password}
           disabled={isPending}
         />
-      </Label>
+      </section>
+
+      <section className='flex justify-between gap-x-2'>
+        <Label htmlFor='remember-login' className='flex items-center gap-x-2.5'>
+          <Checkbox id='remember-login' size={24} />
+          <p className='text-sm font-normal'>Запомнить меня</p>
+        </Label>
+        <Link
+          href={AppRouter.recovery.password}
+          className='text-purple-86 text-sm'
+        >
+          Забыли пароль?
+        </Link>
+      </section>
+
+      {serverError && (
+        <ErrorMessage
+          className='text-center'
+          error={getErrorMessage(serverError)}
+        />
+      )}
 
       <Button type='submit' disabled={isPending} className='w-full'>
         {isPending ? 'Загрузка...' : 'Войти'}
       </Button>
 
-      <div className='flex flex-col gap-y-2'>
-        <Link
-          href={AppRouter.recovery.password}
-          className='text-blue-16 text-center text-sm font-semibold'
-        >
-          Забыл пароль
-        </Link>
-
-        {serverError && <ErrorMessage error={getErrorMessage(serverError)} />}
-      </div>
+      {serverError && <ErrorMessage error={getErrorMessage(serverError)} />}
     </form>
   );
 }

@@ -1,3 +1,5 @@
+@import 'tailwindcss';
+
 .visually-hidden {
   position: absolute !important;
   width: 1px !important;
